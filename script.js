@@ -1,24 +1,66 @@
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const sections=["opening","gift","message","cake","memories","video","music","record","gallery","letters","things","garden","final"];let completed=new Set(),messageIndex=0,candlesOff=0,thingsFound=0,currentPhoto=0;
-function mark(k){completed.add(k);updateProgress()}function updateProgress(){const p=Math.min(100,Math.round(completed.size/12*100));$("#progressBar").style.width=p+"%";$("#progressText").textContent=p+"%"}function showSection(id){sections.forEach(s=>$("#"+s)?.classList.remove("active"));$("#"+id)?.classList.add("active");window.scrollTo({top:0,behavior:"smooth"});if(id==="message")renderMessage()}
-function next(id){mark(sections[Math.max(0,sections.indexOf(id)-1)]||id);showSection(id)}
-function confetti(n=70){for(let i=0;i<n;i++){const e=document.createElement("i");e.className="confetti";e.textContent=["♡","✦","✿","୨୧","🎀"][Math.floor(Math.random()*5)];e.style.left=Math.random()*100+"vw";e.style.top=(-10-Math.random()*20)+"vh";e.style.color=["#d87598","#efabc2","#c85f88","#f3c3d2"][Math.floor(Math.random()*4)];e.style.animationDelay=Math.random()*.45+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),2400)}}
-function toast(t){const x=$("#toast");x.textContent=t;x.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>x.classList.remove("show"),2200)}
-$("#openSurprise").onclick=()=>{confetti(35);mark("opening");showSection("gift")};
-$("#giftBox").onclick=()=>{if($("#giftBox").classList.contains("open"))return;$("#giftBox").classList.add("open");setTimeout(()=>{$("#giftReveal").classList.remove("hidden");confetti(90);mark("gift")},600)};$$('[data-next]').forEach(b=>b.onclick=()=>next(b.dataset.next));
-function renderMessage(){const t=birthday.birthdayMessages[messageIndex],el=$("#messageText");el.textContent="";let i=0;clearInterval(window.typeTimer);window.typeTimer=setInterval(()=>{el.textContent=t.slice(0,++i);if(i>=t.length)clearInterval(window.typeTimer)},12);$("#messageDots").innerHTML=birthday.birthdayMessages.map((_,j)=>`<span style="opacity:${j===messageIndex?1:.25}"></span>`).join("");$("#nextMessage").textContent=messageIndex===birthday.birthdayMessages.length-1?"CONTINUE →":"NEXT →"}
-$("#nextMessage").onclick=()=>{if(messageIndex<birthday.birthdayMessages.length-1){messageIndex++;renderMessage()}else{mark("message");showSection("cake")}};
-$("#candles").innerHTML=Array.from({length:24},(_,i)=>`<button class="candle" aria-label="Lilin ${i+1}"><i class="flame"></i></button>`).join("");$$('.candle').forEach(e=>e.onclick=()=>{if(e.classList.contains("off"))return;e.classList.add("off");candlesOff++;$("#candleCounter").textContent=`${candlesOff} / 24 candles`;if(candlesOff===24){$("#wishText").classList.remove("hidden");$("#blowBtn").classList.remove("hidden")}});$("#blowBtn").onclick=()=>{confetti(110);toast("Wish sent into the universe ✨");mark("cake");showSection("memories")};
-function buildMemories(){
- $("#memoryGrid").innerHTML=birthday.memories.map((m,i)=>`<button class="polaroid" style="--r:${i%2?-2.5:2.5}deg" data-photo="${m.src}" data-caption="${m.caption}"><img src="${m.src}" alt="Memory ${i+1}"><p>${m.caption}</p></button>`).join("");
- $$(".polaroid").forEach(p=>p.onclick=()=>{$("#modalImage").src=p.dataset.photo;$("#modalCaption").textContent=p.dataset.caption;$("#photoModal").classList.remove("hidden")})
-}buildMemories();$("#closeModal").onclick=()=>$("#photoModal").classList.add("hidden");$("#photoModal").onclick=e=>{if(e.target.id==="photoModal")$("#photoModal").classList.add("hidden")};
-$("#playVideo").onclick=()=>{const v=$("#birthdayVideo");$("#videoPlaceholder").classList.add("hidden");v.classList.remove("hidden");v.play().catch(()=>toast("Video belum dapat diputar."));mark("video")};$("#birthdayVideo").onended=()=>$("#videoDone").classList.remove("hidden");
-const audio=$("#birthdayAudio"),musicBtn=$("#musicBtn"),musicLabel=$("#musicLabel"),volumeSlider=$("#volumeSlider");audio.volume=.65;musicBtn.onclick=()=>{if(audio.paused)audio.play().then(()=>{musicLabel.textContent="playing"}).catch(()=>toast("Tambahkan assets/music/confident.mp3"));else audio.pause()};volumeSlider.oninput=e=>{audio.volume=e.target.value/100;$("#volumeValue").textContent=e.target.value+"%"};$("#volume").oninput=e=>audio.volume=e.target.value;$("#playAudio").onclick=()=>audio.paused?audio.play().catch(()=>toast("Tambahkan file musik.")):audio.pause();audio.onplay=()=>{$("#playAudio").textContent="❚❚";$("#musicVinyl").classList.add("playing");$("#visualizer").classList.add("playing");musicLabel.textContent="playing"};audio.onpause=()=>{$("#playAudio").textContent="▶";$("#musicVinyl").classList.remove("playing");$("#visualizer").classList.remove("playing");musicLabel.textContent="music"};audio.ontimeupdate=()=>{if(audio.duration)$("#seek").value=audio.currentTime/audio.duration*100;$("#time").textContent=`${Math.floor(audio.currentTime/60)}:${String(Math.floor(audio.currentTime%60)).padStart(2,"0")}`;const c=birthday.musicCaptions.filter(x=>x.time<=audio.currentTime);if(c.length)$("#musicCaption").textContent=c[c.length-1].text};$("#seek").oninput=e=>{if(audio.duration)audio.currentTime=e.target.value/100*audio.duration};$("#visualizer").innerHTML=Array.from({length:25},()=>'<i class="bar"></i>').join("");
-function buildRecord(){const stack=$("#photoStack");stack.innerHTML=birthday.memories.map(m=>`<img class="record-photo" src="${m.src}" alt="${m.caption}">`).join("");$("#photoDots").innerHTML=birthday.memories.map((_,i)=>`<button class="dot ${i===0?'active':''}" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join("");showRecord(0);$$('.dot').forEach(d=>d.onclick=()=>showRecord(+d.dataset.i))}function showRecord(i){currentPhoto=(i+birthday.memories.length)%birthday.memories.length;$$('.record-photo').forEach((p,j)=>p.classList.toggle('active',j===currentPhoto));$$('.dot').forEach((d,j)=>d.classList.toggle('active',j===currentPhoto));$("#photoCaption").textContent=birthday.memories[currentPhoto].caption+` · ${String(currentPhoto+1).padStart(2,'0')} / 06`;const r=$("#recordVinyl");r.classList.remove("bump");void r.offsetWidth;r.classList.add("bump")}$("#prevPhoto").onclick=()=>showRecord(currentPhoto-1);$("#nextPhoto").onclick=()=>showRecord(currentPhoto+1);buildRecord();let tx=0;$("#record").addEventListener("touchstart",e=>tx=e.changedTouches[0].screenX,{passive:true});$("#record").addEventListener("touchend",e=>{const dx=e.changedTouches[0].screenX-tx;if(Math.abs(dx)>45)showRecord(currentPhoto+(dx<0?1:-1))},{passive:true});
-function buildGallery(){$("#galleryGrid").innerHTML=birthday.memories.map((m,i)=>`<button class="gallery-item" style="--r:${i%2?1:-1}deg"><img src="${m.src}" alt="Memory ${i+1}"></button>`).join("");$$('.gallery-item').forEach((b,i)=>b.onclick=()=>{$("#modalImage").src=birthday.memories[i].src;$("#modalCaption").textContent=birthday.memories[i].caption;$("#photoModal").classList.remove("hidden")})}buildGallery();
-function buildLetters(){$("#lettersGrid").innerHTML=birthday.letters.map((l,i)=>`<button class="envelope"><div class="env-icon">💌</div><strong>LETTER ${String(i+1).padStart(2,'0')}</strong><div class="letter-text hidden">${l.title}<br><br>${l.text}</div></button>`).join("");$$('.envelope').forEach(e=>e.onclick=()=>{if(!e.classList.contains('opened')){e.classList.add('opened');e.querySelector('.letter-text').classList.remove('hidden');toast('Letter opened 💌')}if($$('.envelope.opened').length===birthday.letters.length)mark('letters')})}buildLetters();
-function buildThings(){$("#thingsGrid").innerHTML=birthday.thingsAboutYou.map((t,i)=>`<button class="thing"><span class="thing-inner"><span class="thing-face thing-front">${String(i+1).padStart(2,'0')}</span><span class="thing-face thing-back">${t}</span></span></button>`).join("");$$('.thing').forEach(t=>t.onclick=()=>{if(t.classList.contains('flipped'))return;t.classList.add('flipped');thingsFound++;$("#thingsCounter").textContent=`${thingsFound} / 24 discovered`;if(thingsFound===24){$("#thingsDone").classList.remove('hidden');mark('things');confetti(70)}})}buildThings();
-const secrets=["Sweet, just like you 🍓","Keep blooming, always. 🌷","You found a secret! 🎀","A tiny virtual hug for you 🧸","A little butterfly came to celebrate! 🦋","More cake? Always. 🍰","One sweet cookie for one sweet day 🍪","Cherry on top! 🍒"];$$('.garden-item').forEach((e,i)=>e.onclick=()=>{toast(secrets[i]);e.animate([{transform:'scale(1)'},{transform:'scale(1.35) rotate(8deg)'},{transform:'scale(1)'}],{duration:450})});
-$("#finalBtn").onclick=()=>{confetti(160);$("#finalReveal").classList.remove("hidden");mark("final")};
-updateProgress();
+const musicBtn = document.getElementById("musicBtn");
+const music = document.getElementById("bgMusic");
+const openBtn = document.getElementById("openBtn");
+const wishBtn = document.getElementById("wishBtn");
+const modal = document.getElementById("wishModal");
+const closeModal = document.getElementById("closeModal");
+const wishDone = document.getElementById("wishDone");
+const wishResult = document.getElementById("wishResult");
+
+let audioCtx=null,musicGain=null,fallbackTimer=null,fallbackPlaying=false;
+const volumeSlider=document.getElementById("volumeSlider"),volumeValue=document.getElementById("volumeValue"),musicLabel=document.getElementById("musicLabel"); let musicVolume=.65; music.volume=musicVolume;
+function startFallbackMusic(){audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();musicGain=musicGain||audioCtx.createGain();musicGain.gain.value=musicVolume*.045;musicGain.connect(audioCtx.destination);const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23];let i=0;const play=()=>{if(!fallbackPlaying)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type="sine";o.frequency.value=notes[i++%notes.length];g.gain.setValueAtTime(0,audioCtx.currentTime);g.gain.linearRampToValueAtTime(1,audioCtx.currentTime+.04);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.42);o.connect(g);g.connect(musicGain);o.start();o.stop(audioCtx.currentTime+.45)};play();fallbackTimer=setInterval(play,500)}
+function stopFallbackMusic(){fallbackPlaying=false;if(fallbackTimer)clearInterval(fallbackTimer);fallbackTimer=null}
+musicBtn.addEventListener("click",async()=>{try{if(!music.paused){music.pause();stopFallbackMusic();musicLabel.textContent="music";musicBtn.classList.remove("playing");return}await music.play();musicLabel.textContent="playing";musicBtn.classList.add("playing")}catch{fallbackPlaying=!fallbackPlaying;if(fallbackPlaying){startFallbackMusic();musicLabel.textContent="playing";musicBtn.classList.add("playing")}else{stopFallbackMusic();musicLabel.textContent="music";musicBtn.classList.remove("playing")}}});
+volumeSlider.addEventListener("input",()=>{const v=Number(volumeSlider.value);musicVolume=v/100;music.volume=musicVolume;if(musicGain)musicGain.gain.value=musicVolume*.045;volumeValue.textContent=v+"%";musicBtn.classList.toggle("muted",v===0)});
+
+openBtn.addEventListener("click", () => {
+  document.getElementById("letter").scrollIntoView({ behavior: "smooth" });
+  confetti(35);
+});
+
+wishBtn.addEventListener("click", () => {
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden", "false");
+});
+
+function hideModal() {
+  modal.classList.remove("show");
+  modal.setAttribute("aria-hidden", "true");
+}
+
+closeModal.addEventListener("click", hideModal);
+modal.addEventListener("click", (e) => { if (e.target === modal) hideModal(); });
+
+wishDone.addEventListener("click", () => {
+  wishResult.style.display = "block";
+  wishDone.textContent = "Wish sent to the universe ✨";
+  confetti(70);
+});
+
+function confetti(amount) {
+  const symbols = ["♡","✦","✿","୨୧"];
+  for (let i = 0; i < amount; i++) {
+    const el = document.createElement("div");
+    el.className = "confetti";
+    el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    el.style.left = Math.random()*100 + "vw";
+    el.style.top = (-10 - Math.random()*20) + "vh";
+    el.style.fontSize = (10 + Math.random()*16) + "px";
+    el.style.color = ["#d87598","#efabc2","#c85f88","#f3c3d2"][Math.floor(Math.random()*4)];
+    el.style.animationDelay = Math.random()*.45 + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2200);
+  }
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add("visible");
+  });
+}, {threshold: .12});
+
+document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+
+const record=document.getElementById("vinyl"),recordPhotos=[...document.querySelectorAll(".record-photo")],dots=[...document.querySelectorAll(".dot")],caption=document.getElementById("photoCaption"),prevPhoto=document.getElementById("prevPhoto"),nextPhoto=document.getElementById("nextPhoto");let currentPhoto=0;const captions=["a sweet little memory · 01 / 05","a tiny happy moment · 02 / 05","one for the scrapbook · 03 / 05","another page of us · 04 / 05","keep this one forever · 05 / 05"];function showPhoto(index,direction=1){currentPhoto=(index+recordPhotos.length)%recordPhotos.length;recordPhotos.forEach((p,i)=>{p.classList.toggle("active",i===currentPhoto);p.style.setProperty("--slide-dir",direction)});dots.forEach((d,i)=>d.classList.toggle("active",i===currentPhoto));caption.textContent=captions[currentPhoto];record.classList.remove("turn-record");void record.offsetWidth;record.classList.add("turn-record")}prevPhoto.addEventListener("click",()=>showPhoto(currentPhoto-1,-1));nextPhoto.addEventListener("click",()=>showPhoto(currentPhoto+1,1));dots.forEach(d=>d.addEventListener("click",()=>showPhoto(Number(d.dataset.index))));let touchX=0,touchY=0;const photoArea=document.querySelector(".record-photos");photoArea.addEventListener("touchstart",e=>{touchX=e.changedTouches[0].screenX;touchY=e.changedTouches[0].screenY},{passive:true});photoArea.addEventListener("touchend",e=>{const dx=e.changedTouches[0].screenX-touchX,dy=e.changedTouches[0].screenY-touchY;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))showPhoto(currentPhoto+(dx<0?1:-1),dx<0?1:-1)},{passive:true});
