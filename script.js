@@ -303,6 +303,7 @@
   const startCamera = $("startCamera");
   const takeSelfie = $("takeSelfie");
   const retakeSelfie = $("retakeSelfie");
+  const downloadSelfie = $("downloadSelfie");
   const cameraVideo = $("cameraVideo");
   const cameraCanvas = $("cameraCanvas");
   const cameraPlaceholder = $("cameraPlaceholder");
@@ -346,42 +347,118 @@
       cameraVideo.srcObject=cameraStream;
       await cameraVideo.play();
       cameraPlaceholder.style.display="none";
+      cameraVideo.style.display="block";
+      cameraCanvas.style.display="none";
       takeSelfie.disabled=false;
       capturedImage=false;
       retakeSelfie.style.display="none";
+      if(downloadSelfie) downloadSelfie.style.display="none";
     }catch(err){
       if(cameraPlaceholder) { cameraPlaceholder.style.display="grid"; cameraPlaceholder.textContent="Izin kamera belum diberikan. Izinkan kamera lalu tekan Start Camera lagi."; }
     }
   });
 
+  const photoReasons = [
+    "karena senyummu selalu terasa seperti rumah yang hangat",
+    "karena caramu bercerita membuat hal sederhana jadi istimewa",
+    "karena kamu punya cara sendiri untuk membuat hari terasa lebih indah",
+    "karena tawamu adalah salah satu suara favorit yang ingin selalu didengar",
+    "karena kamu tetap menjadi dirimu sendiri, dan itu begitu berharga",
+    "karena perhatian kecilmu sering berarti jauh lebih besar dari yang kamu kira",
+    "karena kamu punya hati yang lembut tanpa kehilangan keberanian",
+    "karena melihatmu bertumbuh adalah cerita yang indah untuk disaksikan",
+    "karena kamu selalu punya sisi kecil yang berhasil membuat dunia terasa manis",
+    "karena kamu membuat kenangan sederhana terasa layak disimpan selamanya",
+    "karena kamu pantas dirayakan, bukan hanya hari ini, tapi setiap hari",
+    "karena caramu berjuang diam-diam menunjukkan betapa kuatnya dirimu",
+    "karena ada ketulusan dalam caramu memperlakukan orang yang kamu sayangi",
+    "karena kamu membuat kata ‘rumah’ terasa seperti sebuah perasaan",
+    "karena bahkan hari biasa bisa terasa spesial ketika ada ceritamu di dalamnya",
+    "karena kamu adalah kumpulan dari hal-hal kecil yang selalu ingin dikenang",
+    "karena mimpi-mimpimu pantas punya ruang untuk menjadi nyata",
+    "karena kamu mengajarkan bahwa lembut dan kuat bisa hidup berdampingan",
+    "karena caramu hadir membuat banyak momen terasa lebih lengkap",
+    "karena kamu selalu punya tempat istimewa di halaman-halaman kenangan",
+    "karena versi dirimu hari ini adalah hasil dari perjalanan yang begitu indah",
+    "karena masa depan terasa lebih manis ketika membayangkan semua hal baik yang menunggumu",
+    "karena dari sekian banyak cerita, kisah tentangmu selalu ingin dibaca lagi",
+    "karena alasan paling sederhana dan paling jujur: kamu adalah kamu, dan itu cukup untuk disayang ♡"
+  ];
+
+  // Keep the 24 reasons visible as romantic copy, independent of content.js.
+  const littleItems = all("#littleGrid .little span");
+  if(littleItems.length === 24){ littleItems.forEach((el,i)=>el.textContent=photoReasons[i]); }
+
+  function roundedRect(ctx,x,y,w,h,r){
+    ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+  }
+
+  function fitImage(ctx, source, x, y, w, h, mirror=true, zoom=1){
+    const vw=source.videoWidth || source.width || 640, vh=source.videoHeight || source.height || 480;
+    const scale=Math.max(w/vw,h/vh)*zoom, dw=vw*scale, dh=vh*scale;
+    const dx=x+(w-dw)/2, dy=y+(h-dh)/2;
+    ctx.save();
+    if(mirror){ ctx.translate(x+w,0); ctx.scale(-1,1); ctx.drawImage(source, w-dx-dw,dy,dw,dh); }
+    else ctx.drawImage(source,dx,dy,dw,dh);
+    ctx.restore();
+  }
+
   function drawTemplate(){
     if(!cameraCanvas || !cameraVideo) return;
     const vw=cameraVideo.videoWidth || 640, vh=cameraVideo.videoHeight || 480;
-    const w=900, h=selectedTemplate==="film" ? 1100 : 1050;
-    cameraCanvas.width=w; cameraCanvas.height=h;
+    const W=900, frameH=390, gap=24, top=110, bottom=170;
+    const H=top + frameH*6 + gap*5 + bottom;
+    cameraCanvas.width=W; cameraCanvas.height=H;
     const ctx=cameraCanvas.getContext("2d");
-    ctx.fillStyle="#fff8fa"; ctx.fillRect(0,0,w,h);
-    const pad=55, photoH=760;
-    const scale=Math.max((w-pad*2)/vw, photoH/vh), dw=vw*scale, dh=vh*scale;
-    const dx=(w-dw)/2, dy=55+(photoH-dh)/2;
-    ctx.save(); ctx.translate(w,0); ctx.scale(-1,1); ctx.drawImage(cameraVideo, w-dx-dw, dy, dw, dh); ctx.restore();
-    ctx.strokeStyle="#e5b4c7"; ctx.lineWidth=5; ctx.strokeRect(pad,55,w-pad*2,photoH);
-    ctx.fillStyle="#71304c"; ctx.textAlign="center";
+    ctx.clearRect(0,0,W,H);
+
     if(selectedTemplate==="classic"){
-      ctx.font="44px Georgia"; ctx.fillText("DESI'S BIRTHDAY",w/2,875);
-      ctx.font="28px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("chapter 24 · ♡ · 2026",w/2,930);
-    }else if(selectedTemplate==="bow"){
-      ctx.font="70px Georgia"; ctx.fillText("୨୧",90,110); ctx.fillText("୨୧",810,110);
-      ctx.font="42px Georgia"; ctx.fillText("birthday girl ♡",w/2,875);
-      ctx.font="27px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("sweet memories, sweeter days",w/2,930);
-    }else{
-      ctx.font="38px Georgia"; ctx.fillText("♡ PHOTOBOOTH ♡",w/2,870);
-      ctx.font="25px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("roll no. 24 · keep this frame",w/2,920);
-      for(let i=0;i<5;i++){ctx.beginPath();ctx.arc(100+i*175,1010,7,0,Math.PI*2);ctx.fill();}
+      ctx.fillStyle="#fff8fa"; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle="#71304c"; ctx.textAlign="center"; ctx.font="52px Georgia"; ctx.fillText("DESI'S BIRTHDAY",W/2,65);
+      ctx.font="26px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("chapter 24 · six little moments · ♡",W/2,95);
+    } else if(selectedTemplate==="bow"){
+      ctx.fillStyle="#fff1f6"; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle="#71304c"; ctx.textAlign="center"; ctx.font="50px Georgia"; ctx.fillText("୨୧ BIRTHDAY GIRL ୨୧",W/2,65);
+      ctx.font="24px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("sweet memories, sweeter days ♡",W/2,95);
+    } else {
+      ctx.fillStyle="#f9f1e9"; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle="#4d3d3f"; ctx.textAlign="center"; ctx.font="48px Georgia"; ctx.fillText("♡ PHOTOBOOTH ♡",W/2,65);
+      ctx.font="23px Georgia"; ctx.fillStyle="#9d7b78"; ctx.fillText("ROLL NO. 24 · KEEP THIS FRAME",W/2,95);
     }
-    cameraCanvas.style.display="block";
-    cameraVideo.style.display="none";
+
+    const labels=["01 · little smile","02 · birthday mood","03 · pretty moment","04 · sweet chapter","05 · keep this one","06 · forever-ish ♡"];
+    for(let i=0;i<6;i++){
+      const y=top+i*(frameH+gap);
+      ctx.save();
+      if(selectedTemplate==="classic") ctx.fillStyle="#ffffff";
+      else if(selectedTemplate==="bow") ctx.fillStyle="#fff9fb";
+      else ctx.fillStyle="#fffdf9";
+      roundedRect(ctx,55,y,W-110,frameH,8); ctx.fill();
+      ctx.strokeStyle=selectedTemplate==="film"?"#c7aaa5":"#e5b4c7"; ctx.lineWidth=4; ctx.stroke();
+      ctx.save(); roundedRect(ctx,68,y+13,W-136,frameH-26,5); ctx.clip(); fitImage(ctx,cameraVideo,68,y+13,W-136,frameH-26,true,1.03); ctx.restore();
+      if(selectedTemplate==="bow"){
+        ctx.fillStyle="#d36f92"; ctx.font="34px Georgia"; ctx.textAlign="left"; ctx.fillText("♡",80,y+55);
+        ctx.textAlign="right"; ctx.fillText("♡",W-80,y+55);
+      }
+      if(selectedTemplate==="film"){
+        ctx.fillStyle="#5e4a4a"; ctx.font="20px Georgia"; ctx.textAlign="left"; ctx.fillText(labels[i],75,y+frameH-22);
+        ctx.textAlign="right"; ctx.fillText("24",W-75,y+frameH-22);
+      }
+      ctx.restore();
+    }
+    ctx.textAlign="center";
+    if(selectedTemplate==="classic"){
+      ctx.fillStyle="#c66a8d"; ctx.font="30px Georgia"; ctx.fillText("made with love for your chapter 24 ♡",W/2,H-65);
+    } else if(selectedTemplate==="bow"){
+      ctx.fillStyle="#c66a8d"; ctx.font="32px Georgia"; ctx.fillText("୨୧ six frames, one lovely memory ୨୧",W/2,H-65);
+    } else {
+      ctx.fillStyle="#7b6363"; ctx.font="28px Georgia"; ctx.fillText("DATE: 24 · STATUS: CUTE ♡",W/2,H-65);
+    }
+    cameraCanvas.style.display="block"; cameraVideo.style.display="none";
+    if(downloadSelfie) downloadSelfie.style.display="inline-flex";
+    if(downloadSelfie) downloadSelfie.href=cameraCanvas.toDataURL("image/png");
   }
+
   if(takeSelfie) takeSelfie.addEventListener("click", () => {
     capturedImage=true; drawTemplate(); stopCamera();
     takeSelfie.disabled=true; retakeSelfie.style.display="inline-block";
@@ -390,6 +467,7 @@
   if(retakeSelfie) retakeSelfie.addEventListener("click", () => {
     cameraCanvas.style.display="none"; cameraVideo.style.display="block";
     capturedImage=false; takeSelfie.disabled=false; retakeSelfie.style.display="none";
+    if(downloadSelfie) downloadSelfie.style.display="none";
     if(startCamera) startCamera.click();
   });
 
