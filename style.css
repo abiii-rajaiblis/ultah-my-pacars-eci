@@ -72,3 +72,22 @@ button{position:relative;z-index:20;pointer-events:auto}
 /* ===== PHOTOBOOTH CAMERA ===== */
 .camera-modal{position:fixed;inset:0;background:rgba(71,28,48,.58);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:none;place-items:center;z-index:300;padding:18px}.camera-modal.show{display:grid}.camera-box{position:relative;width:min(700px,96vw);max-height:94vh;overflow:auto;background:rgba(255,248,250,.88);border:1px solid rgba(255,255,255,.75);border-radius:28px;padding:28px;box-shadow:0 30px 90px rgba(45,15,29,.3);text-align:center}.camera-box h2{font:400 35px 'DM Serif Display';color:#71304c;margin:5px 0 18px}.camera-box h2 em{font-family:Sacramento;color:#d06b91}.camera-close{position:absolute;right:14px;top:10px;border:0;background:none;font-size:30px;color:#9f5572;cursor:pointer}.template-picker{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:15px}.template-choice{border:1px solid #e4b8c8;background:rgba(255,255,255,.65);color:#8d5069;border-radius:999px;padding:9px 13px;cursor:pointer;font-family:Poppins;font-size:11px}.template-choice.active{background:#f1c0d1;color:#71304c}.camera-preview-wrap{position:relative;width:min(500px,100%);margin:auto;background:#f4d6e1;border-radius:20px;overflow:hidden;box-shadow:0 14px 30px rgba(110,45,67,.15)}#cameraVideo{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;transform:scaleX(-1)}#cameraCanvas{display:none;width:100%;height:auto}.camera-placeholder{position:absolute;inset:0;display:grid;place-items:center;padding:30px;color:#9b6c7d;font:16px 'Playfair Display';background:rgba(255,244,248,.65)}.camera-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:16px}.secondary-btn{border:1px solid #dcaabd;background:#fff8fa;color:#8f5068;border-radius:999px;padding:11px 16px;cursor:pointer;font-family:Poppins}.camera-note{font-size:10px;color:#a47b89;margin:13px 0 0}
 @media(max-width:700px){.scrapbook-wall{min-height:1040px;padding:35px 18px}.wall-frame{width:165px}.wall-frame img{height:140px}.frame-1{left:5%;top:70px}.frame-2{right:5%;left:auto;top:70px;width:175px}.frame-3{left:7%;right:auto;top:275px}.frame-4{right:5%;left:auto;top:300px;width:155px}.frame-5{left:50%;top:470px;width:175px;transform:translateX(-50%) rotate(-3deg)}.frame-6{left:6%;right:auto;top:665px;width:155px}.frame-7{right:5%;left:auto;top:640px;width:155px}.frame-8{left:50%;top:825px;transform:translateX(-50%) rotate(-5deg);width:145px}.frame-note{height:120px}.camera-box{padding:23px 15px}.camera-box h2{font-size:30px}}
+
+/* ===== SCRAPBOOK WALL POLISH ===== */
+.garden{background:radial-gradient(circle at 50% 0%,#fff9fb 0,#fff0f5 48%,#f8d8e4 100%)}
+.scrapbook-wall{min-height:790px;background:rgba(255,255,255,.28);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.wall-frame{border-radius:2px}
+.frame-1{width:190px}.frame-2{width:230px}.frame-3{width:185px}.frame-4{width:210px}.frame-5{width:175px}.frame-6{width:225px}.frame-7{width:180px}.frame-8{width:155px}
+.wall-frame img{height:180px}.frame-2 img,.frame-6 img{height:195px}.frame-8 .frame-note{height:145px}
+/* ===== 6-FRAME VERTICAL PHOTOBOOTH ===== */
+.camera-box{width:min(760px,96vw)}
+.camera-subtitle{font-size:11px;color:#9a7281;margin:-8px auto 16px;line-height:1.7}
+.camera-preview-wrap{width:min(430px,100%);max-height:65vh;overflow:auto;background:#f5dbe4}
+#cameraCanvas{max-width:100%;height:auto}
+.download-selfie{display:none;text-decoration:none;align-items:center;justify-content:center}
+@media(max-width:700px){
+ .scrapbook-wall{min-height:1120px}
+ .wall-frame{width:155px!important}.wall-frame img{height:135px!important}
+ .frame-1{left:4%;top:70px}.frame-2{right:4%;left:auto;top:75px}.frame-3{left:5%;top:275px}.frame-4{right:4%;left:auto;top:315px}.frame-5{left:50%;top:510px}.frame-6{left:4%;right:auto;top:700px}.frame-7{right:4%;left:auto;top:725px}.frame-8{left:50%;top:930px}
+ .camera-preview-wrap{width:min(320px,100%)}
+}
