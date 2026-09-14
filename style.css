@@ -91,3 +91,31 @@ button{position:relative;z-index:20;pointer-events:auto}
  .frame-1{left:4%;top:70px}.frame-2{right:4%;left:auto;top:75px}.frame-3{left:5%;top:275px}.frame-4{right:4%;left:auto;top:315px}.frame-5{left:50%;top:510px}.frame-6{left:4%;right:auto;top:700px}.frame-7{right:4%;left:auto;top:725px}.frame-8{left:50%;top:930px}
  .camera-preview-wrap{width:min(320px,100%)}
 }
+
+/* ===== FINAL LETTER — sendok & garpu quote card ===== */
+.final-letter{position:relative;max-width:560px;margin:26px auto 6px;padding:34px 30px 28px;border-radius:22px;text-align:left}
+.final-letter-icons{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:26px;background:#fff;border:1px solid #eccbd7;border-radius:999px;padding:6px 16px;box-shadow:0 8px 20px rgba(180,100,140,.16)}
+.final-letter p{font-size:13px;line-height:1.95;color:#7d5566;margin:0 0 14px}
+.final-letter p:last-child{margin-bottom:0}
+.final-letter p em{font-family:'Playfair Display',serif;font-style:italic;color:#a2456c;font-size:15px}
+.final-letter-close{font-family:'Playfair Display',serif;font-style:italic;color:#8a4763}
+.final-letter-close span{color:#d06b91;font-family:Poppins}
+@media(max-width:600px){.final-letter{padding:30px 20px 24px}.final-letter p{font-size:12.5px}}
+
+/* ===== PHOTOBOOTH — cute decorative icons, countdown, flash, progress ===== */
+.deco-icon{position:absolute;z-index:9;font-size:26px;opacity:.9;pointer-events:none;filter:drop-shadow(0 4px 8px rgba(160,80,110,.35));animation:decoFloat 3.6s ease-in-out infinite}
+.deco-1{top:8px;left:10px;animation-delay:0s}
+.deco-2{top:8px;right:10px;font-size:20px;animation-delay:.8s}
+.deco-3{bottom:8px;left:10px;font-size:22px;animation-delay:1.6s}
+.deco-4{bottom:8px;right:10px;animation-delay:2.4s}
+@keyframes decoFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(4deg)}}
+.capture-countdown{position:absolute;inset:0;display:none;place-items:center;background:rgba(71,28,48,.32);z-index:15}
+.capture-countdown.show{display:grid}
+.capture-countdown span{font:700 90px 'DM Serif Display',serif;color:#fff;text-shadow:0 10px 28px rgba(71,28,48,.45);animation:countPulse .8s ease}
+@keyframes countPulse{0%{transform:scale(.5);opacity:0}50%{transform:scale(1.12);opacity:1}100%{transform:scale(1);opacity:1}}
+.camera-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:16}
+.camera-flash.flash{animation:flashPop .35s ease}
+@keyframes flashPop{0%{opacity:.9}100%{opacity:0}}
+.shot-dots{display:flex;justify-content:center;gap:8px;margin:14px 0 2px}
+.shot-dot{width:9px;height:9px;border-radius:50%;background:#f0c3d3;border:1px solid #e29ab5;transition:.25s}
+.shot-dot.filled{background:#d8789b;transform:scale(1.25);box-shadow:0 0 0 3px rgba(216,120,155,.2)}
