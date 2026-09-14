@@ -155,10 +155,10 @@ body{background:var(--cream);color:#6d4354}
     <h2 class="feature-title">Four little <em>letters</em></h2>
     <p class="feature-desc">Klik satu per satu untuk membuka pesan rahasia. 💌</p>
     <div class="letter-grid">
-      <div class="letter-card" data-letter="1"><div class="seal">💌</div><h3>For your heart</h3><p>Open me ♡</p></div>
-      <div class="letter-card" data-letter="2"><div class="seal">🎀</div><h3>For your dreams</h3><p>Open me ♡</p></div>
-      <div class="letter-card" data-letter="3"><div class="seal">🌷</div><h3>For your days</h3><p>Open me ♡</p></div>
-      <div class="letter-card" data-letter="4"><div class="seal">✨</div><h3>For chapter 24</h3><p>Open me ♡</p></div>
+      <div class="letter-card glass-panel" data-letter="1"><div class="seal">💌</div><h3>For your heart</h3><p>Open me ♡</p></div>
+      <div class="letter-card glass-panel" data-letter="2"><div class="seal">🎀</div><h3>For your dreams</h3><p>Open me ♡</p></div>
+      <div class="letter-card glass-panel" data-letter="3"><div class="seal">🌷</div><h3>For your days</h3><p>Open me ♡</p></div>
+      <div class="letter-card glass-panel" data-letter="4"><div class="seal">✨</div><h3>For chapter 24</h3><p>Open me ♡</p></div>
     </div>
     <div style="text-align:center"><button class="primary-btn next-btn" id="lettersNext">Next → 24 Little Things</button></div>
   </div>
@@ -217,44 +217,24 @@ body{background:var(--cream);color:#6d4354}
 
 <audio id="bgMusic" loop preload="auto" src="assets/music/confident.mp3"></audio>
 <script src="script.js"></script>
-<script>
-/* Final navigation + restored Cute UI interactions */
-const screens=[...document.querySelectorAll(".screen")];
-function go(id){screens.forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
-document.getElementById("openGift").onclick=()=>go("candles");
-document.getElementById("afterCandles").onclick=()=>go("scrapbook");
-document.getElementById("scrapNext").onclick=()=>go("moments");
-document.getElementById("momentsNext").onclick=()=>go("letters");
-document.getElementById("lettersNext").onclick=()=>go("little");
-document.getElementById("littleNext").onclick=()=>go("garden");
-document.getElementById("gardenNext").onclick=()=>go("videoPage");
-document.getElementById("finalNext").onclick=()=>go("final");
-
-/* 24 candles + blow all */
-const cg=document.getElementById("candlesGrid"), cp=document.getElementById("candleProgress");
-for(let i=1;i<=24;i++){const c=document.createElement("div");c.className="candle";c.innerHTML='<div class="flame">🔥</div><div class="stick"></div>';c.onclick=()=>{c.classList.toggle("off");updateCandles()};cg.appendChild(c)}
-function updateCandles(){const on=[...document.querySelectorAll(".candle:not(.off)")].length;cp.textContent=on?on+" candles glowing ♡":"All candles are out! Make your wish ✨"}
-document.getElementById("blowAll").onclick=()=>{document.querySelectorAll(".candle").forEach(c=>c.classList.add("off"));updateCandles();confetti(75)};
-/* music */
-const music=document.getElementById("bgMusic"),mb=document.getElementById("musicBtn"),ml=document.getElementById("musicLabel"),vs=document.getElementById("volumeSlider"),vv=document.getElementById("volumeValue");
-music.volume=.65;
-mb.onclick=async()=>{try{if(music.paused){await music.play();ml.textContent="playing";mb.classList.add("playing")}else{music.pause();ml.textContent="music";mb.classList.remove("playing")}}catch(e){ml.textContent="tap again"}};
-vs.oninput=()=>{music.volume=vs.value/100;vv.textContent=vs.value+"%"};
-/* record carousel */
-const rp=[...document.querySelectorAll(".record-photo")],dots=document.getElementById("photoDots"),cap=document.getElementById("photoCaption"),vin=document.getElementById("vinyl");let pi=0;
-const caps=["a sweet little memory","a tiny happy moment","one for the scrapbook","another page of us","keep this one forever","a favorite little chapter"];
-rp.forEach((_,i)=>{const d=document.createElement("button");d.className="dot"+(i===0?" active":"");d.onclick=()=>showPhoto(i);dots.appendChild(d)});
-function showPhoto(i){pi=(i+rp.length)%rp.length;rp.forEach((x,j)=>x.classList.toggle("active",j===pi));[...dots.children].forEach((d,j)=>d.classList.toggle("active",j===pi));cap.textContent=caps[pi]+" · "+String(pi+1).padStart(2,"0")+" / 06";vin.classList.remove("turn-record");void vin.offsetWidth;vin.classList.add("turn-record")}
-document.getElementById("prevPhoto").onclick=()=>showPhoto(pi-1);document.getElementById("nextPhoto").onclick=()=>showPhoto(pi+1);
-let tx=0;document.getElementById("photoStack").addEventListener("touchstart",e=>tx=e.changedTouches[0].screenX,{passive:true});document.getElementById("photoStack").addEventListener("touchend",e=>{let dx=e.changedTouches[0].screenX-tx;if(Math.abs(dx)>45)showPhoto(pi+(dx<0?1:-1))},{passive:true});
-/* letters */
-const letterTexts={1:"Semoga hatimu selalu punya tempat untuk tenang, tertawa, dan menerima dirimu sendiri.",2:"Semoga mimpi-mimpi yang kamu simpan diam-diam satu per satu menemukan jalan pulang.",3:"Semoga hari biasa pun terasa spesial karena kamu selalu menemukan hal kecil untuk disyukuri.",4:"Chapter 24: lebih berani, lebih lembut pada diri sendiri, dan lebih banyak cerita indah."};
-document.querySelectorAll(".letter-card").forEach(c=>c.onclick=()=>{const n=c.dataset.letter;c.querySelector("p").textContent=letterTexts[n]});
-/* 24 little things */
-const things=["senyummu","caramu bercerita","ketulusanmu","semangatmu","tawamu","kebaikan kecilmu","caramu peduli","mimpi-mimpimu","keberanianmu","kesabaranmu","rasa ingin tahumu","keunikanmu","cara kamu belajar","cara kamu bertahan","selera lucumu","sisi lembutmu","energi positifmu","caramu menghargai orang","hal-hal random tentangmu","cerita yang kamu punya","masa depanmu","versi kecil dirimu","versi sekarang dirimu","dan karena kamu adalah kamu ♡"];
-const lg=document.getElementById("littleGrid");things.forEach((t,i)=>{const x=document.createElement("div");x.className="little";x.innerHTML="<b>"+String(i+1).padStart(2,"0")+"</b><span>"+t+"</span>";lg.appendChild(x)});
-/* wish + confetti */
-const wm=document.getElementById("wishModal");document.getElementById("wishBtn").onclick=()=>wm.classList.add("show");document.getElementById("closeModal").onclick=()=>wm.classList.remove("show");document.getElementById("wishDone").onclick=()=>{document.getElementById("wishResult").style.display="block";confetti(80)};
-function confetti(n){const sy=["♡","✦","✿","୨୧"];for(let i=0;i<n;i++){const e=document.createElement("div");e.className="confetti";e.textContent=sy[Math.floor(Math.random()*sy.length)];e.style.left=Math.random()*100+"vw";e.style.top=(-10-Math.random()*20)+"vh";e.style.fontSize=(10+Math.random()*16)+"px";e.style.color=["#d87598","#efabc2","#c85f88","#f3c3d2"][Math.floor(Math.random()*4)];e.style.animationDelay=Math.random()*.45+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),2200)}}
+<script id="fallback-inline">
+/* Safety fallback: critical navigation remains available even if a secondary interaction fails. */
+(function(){
+  function go(id){
+    var screens=document.querySelectorAll(".screen");
+    screens.forEach(function(s){s.classList.remove("active");});
+    var target=document.getElementById(id);
+    if(target){target.classList.add("active");window.scrollTo(0,0);}
+  }
+  var routes={
+    openGift:"candles",afterCandles:"scrapbook",scrapNext:"moments",
+    momentsNext:"letters",lettersNext:"little",littleNext:"garden",
+    gardenNext:"videoPage",finalNext:"final"
+  };
+  Object.keys(routes).forEach(function(id){
+    var b=document.getElementById(id);
+    if(b) b.addEventListener("click",function(e){e.preventDefault();go(routes[id]);});
+  });
+})();
 </script>
 </body></html>
