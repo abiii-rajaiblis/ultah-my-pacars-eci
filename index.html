@@ -1,19 +1,260 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7a8c4"><title>Happy Birthday Desi Ayulia ♡ 24</title><meta name="description" content="A little birthday scrapbook for Desi Ayulia."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Sacramento&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
-<div id="confetti"></div><div id="toast" class="toast"></div>
-<div class="topbar"><div class="brand">pink<span>blossom</span> ♡</div><div class="top-actions"><button class="music-btn" id="musicBtn">♫ <span id="musicLabel">music</span></button><div class="volume-panel">🔊 <input id="volumeSlider" type="range" min="0" max="100" value="65"><span id="volumeValue">65%</span></div></div></div>
-<div class="progress-wrap"><span>🎀</span><div class="progress"><i id="progressBar"></i></div><span id="progressText">0%</span></div>
-<main>
-<section id="opening" class="screen hero active"><div class="floating-decor"><span>🎀</span><span>🍓</span><span>🌷</span><span>🍒</span><span>✨</span><span>🧁</span></div><div class="hero-card"><div class="eyebrow">🎀 a tiny birthday scrapbook 🎀</div><h1>Happy Birthday<br><em>Desi Ayulia</em></h1><div class="age">24 ♡</div><p>There's a little surprise waiting for you... ♡✨</p><button class="primary-btn" id="openSurprise">OPEN YOUR SURPRISE 💌</button></div></section>
-<section id="gift" class="screen"><div class="section-inner center"><p class="eyebrow">something special is hiding here</p><h2>Open the little gift 🎁</h2><button class="gift" id="giftBox" aria-label="Buka hadiah"><span class="lid"></span><span class="box"></span><span class="ribbon-v"></span><span class="ribbon-h"></span></button><div id="giftReveal" class="hidden reveal"><div class="big24">24</div><h2>HAPPY 24TH BIRTHDAY</h2><h3>DESI AYULIA 💗</h3><button class="primary-btn" data-next="message">LET'S GO ✨</button></div></div></section>
-<section id="message" class="screen paper-section"><div class="section-inner narrow"><p class="eyebrow">a little message for you</p><h2>💌 From my heart</h2><article class="letter-card"><div class="stamp">24</div><p id="messageText" class="typing"></p><div class="dots" id="messageDots"></div><button class="secondary-btn" id="nextMessage">NEXT →</button></article></div></section>
-<section id="cake" class="screen"><div class="section-inner center"><p class="eyebrow">make a wish</p><h2>🍰 24 little candles for 24</h2><p class="hint">Tap every candle to turn the flame off.</p><div class="cake-scene"><div class="candles" id="candles"></div><div class="cake"><div class="icing"></div><div class="cake-body"></div><div class="plate"></div></div></div><div class="counter" id="candleCounter">0 / 24 candles</div><p id="wishText" class="wish hidden">Make a wish, Desi... ✨</p><button class="primary-btn hidden" id="blowBtn">BLOW THE CANDLES 🎂</button></div></section>
-<section id="memories" class="screen paper-section"><div class="section-inner"><p class="eyebrow">little pieces of time</p><h2>📸 Our Memory Scrapbook</h2><p class="hint">Tap a photo to see it bigger.</p><div class="scrapbook" id="memoryGrid"></div></div></section>
-<section id="video" class="screen"><div class="section-inner center"><p class="eyebrow">wait... there's one more thing 👀</p><h2>🎬 Your little movie</h2><div class="media-card"><div class="video-placeholder" id="videoPlaceholder"><div class="play-orb">▶</div><p>Your little birthday movie is ready 💗</p></div><video id="birthdayVideo" controls playsinline preload="metadata" class="hidden"><source src="assets/video/surprise.mp4" type="video/mp4"></video><button class="primary-btn" id="playVideo">▶ PLAY YOUR SURPRISE</button></div><p id="videoDone" class="wish hidden">I hope you liked it 🥺💗</p></div></section>
-<section id="music" class="screen paper-section"><div class="section-inner narrow center"><p class="eyebrow">a song for you</p><h2>🎵 Music moment</h2><div class="music-card"><div class="vinyl" id="musicVinyl"><span>24</span></div><div class="track-title">Confident · birthday edit</div><div class="visualizer" id="visualizer"></div><div class="caption" id="musicCaption">Press play when you're ready 💗</div><audio id="birthdayAudio" preload="metadata"><source src="assets/music/confident.mp3" type="audio/mpeg"></audio><div class="audio-controls"><button class="round-btn" id="playAudio">▶</button><input id="seek" type="range" min="0" max="100" value="0"><span id="time">0:00</span></div><label class="volume">🔊 <input id="volume" type="range" min="0" max="1" step=".01" value=".8"></label></div></div></section>
-<section id="record" class="screen"><div class="section-inner"><div class="section-heading"><span>07</span><h2>Only <em>you</em></h2><p>Put your favorite memories on the record ♡ — swipe on mobile or use the arrows.</p></div><div class="record-stage"><div class="record-corner"><div class="record-vinyl" id="recordVinyl"><div class="grooves"></div><div class="record-label">DESI<br><small>24</small></div></div><span class="record-caption">your little record ♡</span></div><div class="record-photos"><button class="photo-arrow" id="prevPhoto">‹</button><div class="photo-frame"><div class="photo-stack" id="photoStack"></div><p id="photoCaption">a sweet little memory · 01 / 06</p></div><button class="photo-arrow" id="nextPhoto">›</button><div class="photo-dots" id="photoDots"></div></div></div></div></section>
-<section id="gallery" class="screen paper-section"><div class="section-inner"><div class="section-heading"><span>08</span><h2>Our <em>moments</em></h2><p>Six little frames for six memories worth keeping close.</p></div><div class="gallery-grid six-frames" id="galleryGrid"></div></div></section>
-<section id="letters" class="screen"><div class="section-inner"><p class="eyebrow">four tiny envelopes</p><h2>💌 Open your letters</h2><div class="letters-grid" id="lettersGrid"></div></div></section>
-<section id="things" class="screen paper-section"><div class="section-inner"><p class="eyebrow">because 24 deserves 24</p><h2>🎀 24 Little Things About You</h2><div class="things-counter" id="thingsCounter">0 / 24 discovered</div><div class="things-grid" id="thingsGrid"></div><p id="thingsDone" class="wish hidden">You found them all! 🎀✨</p></div></section>
-<section id="garden" class="screen garden"><div class="section-inner center"><p class="eyebrow">look a little closer...</p><h2>🍓 Secret Cewek Kue Garden</h2><p class="hint">Tap the little things. Some are hiding messages.</p><div class="garden-scene"><button class="garden-item">🍓</button><button class="garden-item">🌷</button><button class="garden-item">🎀</button><button class="garden-item">🧸</button><button class="garden-item">🦋</button><button class="garden-item">🍰</button><button class="garden-item">🍪</button><button class="garden-item">🍒</button></div></div></section>
-<section id="final" class="screen final"><div class="section-inner center"><div class="final-sparkles">✦ ✧ ✦</div><p class="eyebrow">and finally...</p><div class="big24">24</div><h2>Happy 24th Birthday,<br><em>Desi Ayulia</em> 💗</h2><p class="final-message">May this year bring you more happiness, more laughter, and countless beautiful moments.</p><div class="final-photo"><img src="assets/photos/final.jpg" alt="Desi Ayulia"></div><button class="primary-btn" id="finalBtn">ONE LAST SURPRISE 💌</button><p id="finalReveal" class="final-reveal hidden">You are loved, celebrated, and worth every little bit of magic. 🎀✨</p></div></section>
-</main><div class="modal hidden" id="photoModal"><button class="modal-close" id="closeModal">×</button><img id="modalImage"><p id="modalCaption"></p></div><script src="content.js"></script><script src="script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7c9d8">
+<title>My Bini Guwe Eci ♡ — Happy Birthday Desi Ayulia 24</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Poppins:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* FINAL UI: V2 coquette shell */
+:root{--pink:#d8789b;--pink2:#f7c9d8;--pink3:#fff0f5;--ink:#71304c;--cream:#fff8fa}
+body{background:var(--cream);color:#6d4354}
+.topbar{z-index:100}
+.brand{font-family:Playfair Display,serif}
+.brand span{font-family:Sacramento,cursive}
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+.intro-screen{display:grid;place-items:center;padding:100px 20px 50px;background:radial-gradient(circle at 50% 15%,#fff 0,#fff7fa 35%,#f8d7e2 100%)}
+.intro-card{width:min(760px,94%);text-align:center;background:#fff;border:1px solid #edc5d2;padding:52px 28px;box-shadow:0 25px 65px #9d4f6c18;position:relative}
+.intro-card:before{content:"୨୧";position:absolute;top:18px;left:22px;font-size:28px;color:#d88ba7}
+.intro-card:after{content:"୨୧";position:absolute;bottom:18px;right:22px;font-size:28px;color:#d88ba7}
+.intro-card h1{font:400 clamp(48px,8vw,82px)/.9 "DM Serif Display";color:var(--ink);margin:5px}
+.intro-card h1 em{font-family:Sacramento;color:#d06b91}
+.intro-card p{max-width:540px;margin:20px auto;color:#987080;line-height:1.8;font-size:13px}
+.gift{font-size:78px;animation:floatGift 2.5s ease-in-out infinite}
+@keyframes floatGift{50%{transform:translateY(-10px) rotate(2deg)}}
+.action-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.next-btn{margin-top:24px}
+.candles-wrap{padding-top:110px;text-align:center}
+.candle-title{font:400 54px/1 "DM Serif Display";color:var(--ink)}
+.candle-title em{font-family:Sacramento;color:#d06b91}
+.candle-sub{color:#9a7281;font-size:13px}
+.candles{display:grid;grid-template-columns:repeat(8,1fr);gap:18px;max-width:720px;margin:35px auto}
+.candle{height:105px;position:relative;cursor:pointer}
+.candle .stick{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:22px;height:72px;background:linear-gradient(90deg,#f4b6ca,#fff,#ed9fba);border-radius:4px 4px 2px 2px;border:1px solid #e9afc2}
+.candle .flame{position:absolute;left:50%;top:5px;transform:translateX(-50%);font-size:28px;filter:drop-shadow(0 2px 4px #d8759855);transition:.25s}
+.candle.off .flame{opacity:0;transform:translateX(-50%) scale(.2)}
+.blow-all{margin-top:4px}
+.progress-text{font-family:Playfair Display;color:#a55b77;margin:10px}
+.scrapbook-screen{padding-top:90px}
+.scrap-cover{width:min(900px,92%);margin:auto;background:#fff;border:1px solid #ecd0da;padding:30px;box-shadow:0 20px 55px #9e4f6c12}
+.scrap-title{text-align:center;font:400 55px "DM Serif Display";color:var(--ink)}
+.scrap-title em{font-family:Sacramento;color:#d06b91}
+.scrap-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}
+.scrap-photo{min-height:390px;background:linear-gradient(135deg,#efb0c5,#f9dce6);display:grid;place-items:center;border:10px solid #fff;box-shadow:0 10px 25px #7c365018;font-family:Playfair Display;color:#9b4b69}
+.scrap-copy{padding:25px;background:#fff7fa;border:1px dashed #e6b8c8;display:flex;flex-direction:column;justify-content:center}
+.scrap-copy h3{font:400 32px "Playfair Display";margin:0;color:var(--ink)}
+.scrap-copy p{font-size:13px;line-height:1.9;color:#906c7b}
+.signature{font:30px Sacramento;color:#c56588}
+.feature-section{width:min(1000px,92%);margin:auto;padding:85px 0}
+.feature-title{text-align:center;font:400 50px "DM Serif Display";color:var(--ink)}
+.feature-title em{font-family:Sacramento;color:#d06b91}
+.feature-desc{text-align:center;color:#987080;font-size:13px}
+.letter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:35px}
+.letter-card{background:#fff;border:1px solid #ecd0da;padding:25px;text-align:center;cursor:pointer;min-height:170px;box-shadow:0 10px 25px #8c3c5b0c;transition:.25s}
+.letter-card:hover{transform:translateY(-5px) rotate(-1deg)}
+.letter-card .seal{font-size:35px}.letter-card h3{font:20px "Playfair Display";margin:10px 0}.letter-card p{font-size:11px;line-height:1.7;color:#987080}
+.little-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:30px}
+.little{background:#fff;border:1px solid #ecd0da;padding:18px;text-align:center;min-height:110px}.little b{display:block;font:30px Sacramento;color:#ca6b8e}.little span{font-size:11px;color:#8e6977}
+.garden{background:#fff0f5;width:100%;padding:75px 5%;text-align:center}.garden-box{width:min(850px,100%);margin:auto;background:#fff;border:1px solid #efd2dd;padding:45px}.flowers{font-size:55px;letter-spacing:12px;animation:bloom 2s ease-in-out infinite alternate}@keyframes bloom{to{transform:scale(1.05)}}
+.final-screen{text-align:center;padding:100px 20px;display:none;min-height:100vh;place-items:center;background:linear-gradient(#fff8fa,#f7d6e2)}
+.final-screen.active{display:grid}.final-inner{max-width:650px}.final-inner h2{font:400 65px/.95 "DM Serif Display";color:var(--ink)}.final-inner h2 em{font-family:Sacramento;color:#d06b91}.final-inner p{line-height:1.9;color:#906b79;font-size:13px}
+.wish-modal{position:fixed;inset:0;background:#5a203c66;backdrop-filter:blur(6px);display:none;place-items:center;z-index:200;padding:20px}.wish-modal.show{display:grid}.modal-box{background:#fff7fa;max-width:460px;padding:42px 35px;text-align:center;border:1px solid #e8bacb;box-shadow:0 30px 80px #44112655;position:relative}.close{position:absolute;right:14px;top:10px;border:0;background:none;font-size:26px;color:#a85b78;cursor:pointer}
+@media(max-width:760px){
+ .candles{grid-template-columns:repeat(6,1fr);gap:9px}.candle{height:90px}.candle .stick{height:60px;width:18px}.candle .flame{font-size:22px}
+ .scrap-grid{grid-template-columns:1fr}.scrap-photo{min-height:300px}.scrap-title,.feature-title{font-size:42px}.letter-grid{grid-template-columns:1fr 1fr}.little-grid{grid-template-columns:1fr 1fr}
+ .intro-card{padding:42px 20px}.intro-card h1{font-size:54px}
+}
+@media(max-width:430px){.candles{grid-template-columns:repeat(4,1fr)}.letter-grid{grid-template-columns:1fr}.little-grid{grid-template-columns:1fr}.final-inner h2{font-size:50px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">My Bini Guwe Eci <span>♡</span></div>
+  <div class="music-control">
+    <button class="music-btn" id="musicBtn">♫ <span id="musicLabel">music</span></button>
+    <div class="volume-panel"><span>🔈</span><input id="volumeSlider" type="range" min="0" max="100" value="65"><span id="volumeValue">65%</span></div>
+  </div>
+</header>
+
+<section class="screen intro-screen active" id="intro">
+  <div class="intro-card">
+    <div class="gift">🎁</div>
+    <p class="eyebrow">a tiny birthday surprise</p>
+    <h1>Happy Birthday<br><em>Desi Ayulia</em></h1>
+    <p>Untuk seseorang yang sedang membuka chapter ke-24. Ada sedikit scrapbook, surat, kenangan, dan kejutan yang menunggumu. ♡</p>
+    <button class="primary-btn next-btn" id="openGift">Open your little surprise ♡</button>
+  </div>
+</section>
+
+<section class="screen" id="candles">
+  <div class="candles-wrap section">
+    <p class="eyebrow">chapter 24 begins here</p>
+    <h2 class="candle-title">Make a wish, <em>Desi</em></h2>
+    <p class="candle-sub">Klik lilinnya satu per satu, atau gunakan tombol ajaib untuk meniup semuanya. 🎂</p>
+    <div class="progress-text" id="candleProgress">24 candles glowing ♡</div>
+    <div class="candles" id="candlesGrid"></div>
+    <button class="primary-btn blow-all" id="blowAll">🌬️ BLOW ALL THE CANDLES</button>
+    <br>
+    <button class="next-btn primary-btn" id="afterCandles">Continue to the scrapbook →</button>
+  </div>
+</section>
+
+<section class="screen scrapbook-screen" id="scrapbook">
+  <div class="scrap-cover">
+    <p class="eyebrow" style="text-align:center">01 · little scrapbook</p>
+    <h2 class="scrap-title">A page made for <em>you</em></h2>
+    <div class="scrap-grid">
+      <div class="scrap-photo">DESI<br>♡<br><small>photo 01</small></div>
+      <div class="scrap-copy">
+        <h3>Dear Desi,</h3>
+        <p>Hari ini bukan hanya tentang bertambahnya angka. Ini tentang semua tawa, cerita, langkah kecil, dan versi dirimu yang terus tumbuh.</p>
+        <p>Semoga chapter 24 terasa lembut, hangat, dan penuh kejutan manis. Semoga kamu selalu punya alasan untuk bangga pada perjalananmu sendiri.</p>
+        <span class="signature">with lots of love ♡</span>
+      </div>
+    </div>
+    <div style="text-align:center"><button class="primary-btn next-btn" id="scrapNext">Next → Our Moments</button></div>
+  </div>
+</section>
+
+<section class="screen" id="moments">
+  <div class="feature-section">
+    <p class="eyebrow" style="text-align:center">02 · our moments</p>
+    <h2 class="feature-title">A little <em>record</em> of you</h2>
+    <p class="feature-desc">Swipe foto di HP atau gunakan tombol. Vinyl ikut berputar setiap kali kenangan berganti. ♡</p>
+    <div class="record-stage reveal visible" style="margin-top:35px">
+      <div class="record-corner">
+        <div class="vinyl spinning-idle" id="vinyl"><div class="vinyl-grooves"></div><div class="vinyl-label">DESI<br><small>24</small></div></div>
+        <span class="record-caption">your little record ♡</span>
+      </div>
+      <div class="record-photos">
+        <button class="photo-arrow prev" id="prevPhoto">‹</button>
+        <div class="photo-frame"><div class="photo-stack" id="photoStack">
+          <div class="record-photo active"><img src="assets/photos/photo-01.jpg" alt="Desi memory 1"></div>
+          <div class="record-photo"><img src="assets/photos/photo-02.jpg" alt="Desi memory 2"></div>
+          <div class="record-photo"><img src="assets/photos/photo-03.jpg" alt="Desi memory 3"></div>
+          <div class="record-photo"><img src="assets/photos/photo-04.jpg" alt="Desi memory 4"></div>
+          <div class="record-photo"><img src="assets/photos/photo-05.jpg" alt="Desi memory 5"></div>
+          <div class="record-photo"><img src="assets/photos/photo-06.jpg" alt="Desi memory 6"></div>
+        </div><p class="record-photo-caption" id="photoCaption">a sweet little memory · 01 / 06</p></div>
+        <button class="photo-arrow next" id="nextPhoto">›</button>
+        <div class="photo-dots" id="photoDots"></div>
+      </div>
+    </div>
+    <div style="text-align:center"><button class="primary-btn next-btn" id="momentsNext">Next → Little Things</button></div>
+  </div>
+</section>
+
+<section class="screen" id="letters">
+  <div class="feature-section">
+    <p class="eyebrow" style="text-align:center">03 · letters</p>
+    <h2 class="feature-title">Four little <em>letters</em></h2>
+    <p class="feature-desc">Klik satu per satu untuk membuka pesan rahasia. 💌</p>
+    <div class="letter-grid">
+      <div class="letter-card" data-letter="1"><div class="seal">💌</div><h3>For your heart</h3><p>Open me ♡</p></div>
+      <div class="letter-card" data-letter="2"><div class="seal">🎀</div><h3>For your dreams</h3><p>Open me ♡</p></div>
+      <div class="letter-card" data-letter="3"><div class="seal">🌷</div><h3>For your days</h3><p>Open me ♡</p></div>
+      <div class="letter-card" data-letter="4"><div class="seal">✨</div><h3>For chapter 24</h3><p>Open me ♡</p></div>
+    </div>
+    <div style="text-align:center"><button class="primary-btn next-btn" id="lettersNext">Next → 24 Little Things</button></div>
+  </div>
+</section>
+
+<section class="screen" id="little">
+  <div class="feature-section">
+    <p class="eyebrow" style="text-align:center">04 · 24 little things</p>
+    <h2 class="feature-title">24 reasons to say <em>♡</em></h2>
+    <p class="feature-desc">Kartu-kartu kecil yang bisa kamu buka satu per satu.</p>
+    <div class="little-grid" id="littleGrid"></div>
+    <div style="text-align:center"><button class="primary-btn next-btn" id="littleNext">Next → Secret Garden</button></div>
+  </div>
+</section>
+
+<section class="screen garden" id="garden">
+  <div class="garden-box">
+    <p class="eyebrow">05 · secret garden</p>
+    <h2 class="feature-title">A tiny garden for <em>you</em></h2>
+    <div class="flowers">🌷 🌸 🌹 🎀 🌸</div>
+    <p style="line-height:1.9;color:#906b79">Semoga hidupmu selalu punya tempat untuk tumbuh, beristirahat, dan mekar dengan caramu sendiri. ♡</p>
+    <button class="primary-btn next-btn" id="gardenNext">One last surprise →</button>
+  </div>
+</section>
+
+<section class="screen" id="videoPage">
+  <div class="feature-section" style="text-align:center">
+    <p class="eyebrow">06 · one last surprise</p>
+    <h2 class="feature-title">For the birthday <em>girl</em></h2>
+    <div style="max-width:800px;margin:30px auto;background:#fff;padding:12px;border:1px solid #eccbd7">
+      <video id="surpriseVideo" controls playsinline style="width:100%;display:block;background:#f5d4df" src="assets/video/surprise.mp4"></video>
+    </div>
+    <button class="primary-btn next-btn" id="finalNext">Finish → ♡</button>
+  </div>
+</section>
+
+<section class="final-screen" id="final">
+  <div class="final-inner">
+    <div class="wax">♥</div>
+    <p class="eyebrow">to many more chapters</p>
+    <h2>Twenty-four looks<br><em>pretty on you.</em></h2>
+    <p>Selamat ulang tahun, Desi Ayulia. Semoga chapter 24 dipenuhi hal-hal yang membuatmu tenang, tertawa, bertumbuh, dan merasa dicintai.</p>
+    <button class="primary-btn" id="wishBtn">Make a birthday wish ✨</button>
+    <p class="tiny">made with ♡ for My Bini Guwe Eci · 24</p>
+  </div>
+</section>
+
+<div class="wish-modal" id="wishModal" aria-hidden="true">
+  <div class="modal-box"><button class="close" id="closeModal">×</button><div style="font-size:55px">🎀</div>
+    <h2 style="font:400 38px 'DM Serif Display';color:#77324f">Make a wish, Desi ♡</h2>
+    <p style="font-size:13px;line-height:1.8;color:#906b79">Tutup mata sebentar, pikirkan satu hal yang paling kamu inginkan untuk chapter 24, lalu tekan tombolnya.</p>
+    <button class="primary-btn" id="wishDone">I made my wish ♡</button>
+    <div id="wishResult" style="display:none;margin-top:18px;font:29px Sacramento;color:#c65f87">Your wish is safe with the stars ✨</div>
+  </div>
+</div>
+
+<audio id="bgMusic" loop preload="auto" src="assets/music/confident.mp3"></audio>
+<script src="script.js"></script>
+<script>
+/* Final navigation + restored Cute UI interactions */
+const screens=[...document.querySelectorAll(".screen")];
+function go(id){screens.forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
+document.getElementById("openGift").onclick=()=>go("candles");
+document.getElementById("afterCandles").onclick=()=>go("scrapbook");
+document.getElementById("scrapNext").onclick=()=>go("moments");
+document.getElementById("momentsNext").onclick=()=>go("letters");
+document.getElementById("lettersNext").onclick=()=>go("little");
+document.getElementById("littleNext").onclick=()=>go("garden");
+document.getElementById("gardenNext").onclick=()=>go("videoPage");
+document.getElementById("finalNext").onclick=()=>go("final");
+
+/* 24 candles + blow all */
+const cg=document.getElementById("candlesGrid"), cp=document.getElementById("candleProgress");
+for(let i=1;i<=24;i++){const c=document.createElement("div");c.className="candle";c.innerHTML='<div class="flame">🔥</div><div class="stick"></div>';c.onclick=()=>{c.classList.toggle("off");updateCandles()};cg.appendChild(c)}
+function updateCandles(){const on=[...document.querySelectorAll(".candle:not(.off)")].length;cp.textContent=on?on+" candles glowing ♡":"All candles are out! Make your wish ✨"}
+document.getElementById("blowAll").onclick=()=>{document.querySelectorAll(".candle").forEach(c=>c.classList.add("off"));updateCandles();confetti(75)};
+/* music */
+const music=document.getElementById("bgMusic"),mb=document.getElementById("musicBtn"),ml=document.getElementById("musicLabel"),vs=document.getElementById("volumeSlider"),vv=document.getElementById("volumeValue");
+music.volume=.65;
+mb.onclick=async()=>{try{if(music.paused){await music.play();ml.textContent="playing";mb.classList.add("playing")}else{music.pause();ml.textContent="music";mb.classList.remove("playing")}}catch(e){ml.textContent="tap again"}};
+vs.oninput=()=>{music.volume=vs.value/100;vv.textContent=vs.value+"%"};
+/* record carousel */
+const rp=[...document.querySelectorAll(".record-photo")],dots=document.getElementById("photoDots"),cap=document.getElementById("photoCaption"),vin=document.getElementById("vinyl");let pi=0;
+const caps=["a sweet little memory","a tiny happy moment","one for the scrapbook","another page of us","keep this one forever","a favorite little chapter"];
+rp.forEach((_,i)=>{const d=document.createElement("button");d.className="dot"+(i===0?" active":"");d.onclick=()=>showPhoto(i);dots.appendChild(d)});
+function showPhoto(i){pi=(i+rp.length)%rp.length;rp.forEach((x,j)=>x.classList.toggle("active",j===pi));[...dots.children].forEach((d,j)=>d.classList.toggle("active",j===pi));cap.textContent=caps[pi]+" · "+String(pi+1).padStart(2,"0")+" / 06";vin.classList.remove("turn-record");void vin.offsetWidth;vin.classList.add("turn-record")}
+document.getElementById("prevPhoto").onclick=()=>showPhoto(pi-1);document.getElementById("nextPhoto").onclick=()=>showPhoto(pi+1);
+let tx=0;document.getElementById("photoStack").addEventListener("touchstart",e=>tx=e.changedTouches[0].screenX,{passive:true});document.getElementById("photoStack").addEventListener("touchend",e=>{let dx=e.changedTouches[0].screenX-tx;if(Math.abs(dx)>45)showPhoto(pi+(dx<0?1:-1))},{passive:true});
+/* letters */
+const letterTexts={1:"Semoga hatimu selalu punya tempat untuk tenang, tertawa, dan menerima dirimu sendiri.",2:"Semoga mimpi-mimpi yang kamu simpan diam-diam satu per satu menemukan jalan pulang.",3:"Semoga hari biasa pun terasa spesial karena kamu selalu menemukan hal kecil untuk disyukuri.",4:"Chapter 24: lebih berani, lebih lembut pada diri sendiri, dan lebih banyak cerita indah."};
+document.querySelectorAll(".letter-card").forEach(c=>c.onclick=()=>{const n=c.dataset.letter;c.querySelector("p").textContent=letterTexts[n]});
+/* 24 little things */
+const things=["senyummu","caramu bercerita","ketulusanmu","semangatmu","tawamu","kebaikan kecilmu","caramu peduli","mimpi-mimpimu","keberanianmu","kesabaranmu","rasa ingin tahumu","keunikanmu","cara kamu belajar","cara kamu bertahan","selera lucumu","sisi lembutmu","energi positifmu","caramu menghargai orang","hal-hal random tentangmu","cerita yang kamu punya","masa depanmu","versi kecil dirimu","versi sekarang dirimu","dan karena kamu adalah kamu ♡"];
+const lg=document.getElementById("littleGrid");things.forEach((t,i)=>{const x=document.createElement("div");x.className="little";x.innerHTML="<b>"+String(i+1).padStart(2,"0")+"</b><span>"+t+"</span>";lg.appendChild(x)});
+/* wish + confetti */
+const wm=document.getElementById("wishModal");document.getElementById("wishBtn").onclick=()=>wm.classList.add("show");document.getElementById("closeModal").onclick=()=>wm.classList.remove("show");document.getElementById("wishDone").onclick=()=>{document.getElementById("wishResult").style.display="block";confetti(80)};
+function confetti(n){const sy=["♡","✦","✿","୨୧"];for(let i=0;i<n;i++){const e=document.createElement("div");e.className="confetti";e.textContent=sy[Math.floor(Math.random()*sy.length)];e.style.left=Math.random()*100+"vw";e.style.top=(-10-Math.random()*20)+"vh";e.style.fontSize=(10+Math.random()*16)+"px";e.style.color=["#d87598","#efabc2","#c85f88","#f3c3d2"][Math.floor(Math.random()*4)];e.style.animationDelay=Math.random()*.45+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),2200)}}
+</script>
+</body></html>
