@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7c9d8">
+<title>My Bini Guwe Eci ♡ — Happy Birthday Desi Ayulia 24</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Poppins:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* FINAL UI: V2 coquette shell */
+:root{--pink:#d8789b;--pink2:#f7c9d8;--pink3:#fff0f5;--ink:#71304c;--cream:#fff8fa}
+body{background:var(--cream);color:#6d4354}
+.topbar{z-index:100}
+.brand{font-family:Playfair Display,serif}
+.brand span{font-family:Sacramento,cursive}
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+.intro-screen{display:grid;place-items:center;padding:100px 20px 50px;background:radial-gradient(circle at 50% 15%,#fff 0,#fff7fa 35%,#f8d7e2 100%)}
+.intro-card{width:min(760px,94%);text-align:center;background:#fff;border:1px solid #edc5d2;padding:52px 28px;box-shadow:0 25px 65px #9d4f6c18;position:relative}
+.intro-card:before{content:"୨୧";position:absolute;top:18px;left:22px;font-size:28px;color:#d88ba7}
+.intro-card:after{content:"୨୧";position:absolute;bottom:18px;right:22px;font-size:28px;color:#d88ba7}
+.intro-card h1{font:400 clamp(48px,8vw,82px)/.9 "DM Serif Display";color:var(--ink);margin:5px}
+.intro-card h1 em{font-family:Sacramento;color:#d06b91}
+.intro-card p{max-width:540px;margin:20px auto;color:#987080;line-height:1.8;font-size:13px}
+.gift{font-size:78px;animation:floatGift 2.5s ease-in-out infinite}
+@keyframes floatGift{50%{transform:translateY(-10px) rotate(2deg)}}
+.action-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.next-btn{margin-top:24px}
+/* ---- UI refresh: buttons, cards, ambient sparkle ---- */
+.primary-btn{background:linear-gradient(135deg,#e28aac,#c65f87);border-radius:999px;padding:14px 26px;letter-spacing:.4px;font-weight:500;box-shadow:0 12px 28px rgba(198,95,135,.28);border:1px solid rgba(255,255,255,.4)}
+.primary-btn:hover{background:linear-gradient(135deg,#d97b9f,#b8517a);box-shadow:0 16px 34px rgba(198,95,135,.36);transform:translateY(-3px)}
+.secondary-btn{border-radius:999px;transition:.25s}
+.secondary-btn:hover{background:#fce6ee;transform:translateY(-2px)}
+.intro-card,.scrap-cover,.letter-card,.little,.garden-box{border-radius:18px}
+.ambient-sparkle{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.ambient-sparkle span{position:absolute;font-size:16px;opacity:.35;color:#e39cb8;animation:driftSparkle 14s linear infinite}
+@keyframes driftSparkle{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(-120vh) rotate(40deg)}}
+.candles-wrap{padding-top:110px;text-align:center}
+.candle-title{font:400 54px/1 "DM Serif Display";color:var(--ink)}
+.candle-title em{font-family:Sacramento;color:#d06b91}
+.candle-sub{color:#9a7281;font-size:13px}
+.candles{display:grid;grid-template-columns:repeat(8,1fr);gap:18px;max-width:720px;margin:35px auto}
+.candle{height:105px;position:relative;cursor:pointer}
+.candle .stick{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:22px;height:72px;background:linear-gradient(90deg,#f4b6ca,#fff,#ed9fba);border-radius:4px 4px 2px 2px;border:1px solid #e9afc2}
+.candle .flame{position:absolute;left:50%;top:5px;transform:translateX(-50%);font-size:28px;filter:drop-shadow(0 2px 4px #d8759855);transition:.25s}
+.candle.off .flame{opacity:0;transform:translateX(-50%) scale(.2)}
+.blow-all{margin-top:4px}
+.progress-text{font-family:Playfair Display;color:#a55b77;margin:10px}
+.scrapbook-screen{padding-top:90px}
+.scrap-cover{width:min(900px,92%);margin:auto;background:#fff;border:1px solid #ecd0da;padding:30px;box-shadow:0 20px 55px #9e4f6c12}
+.scrap-title{text-align:center;font:400 55px "DM Serif Display";color:var(--ink)}
+.scrap-title em{font-family:Sacramento;color:#d06b91}
+.scrap-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}
+.scrap-photo{min-height:390px;background:linear-gradient(135deg,#efb0c5,#f9dce6);display:grid;place-items:center;border:10px solid #fff;box-shadow:0 10px 25px #7c365018;font-family:Playfair Display;color:#9b4b69}
+.scrap-copy{padding:25px;background:#fff7fa;border:1px dashed #e6b8c8;display:flex;flex-direction:column;justify-content:center}
+.scrap-copy h3{font:400 32px "Playfair Display";margin:0;color:var(--ink)}
+.scrap-copy p{font-size:13px;line-height:1.9;color:#906c7b}
+.signature{font:30px Sacramento;color:#c56588}
+.feature-section{width:min(1000px,92%);margin:auto;padding:85px 0}
+.feature-title{text-align:center;font:400 50px "DM Serif Display";color:var(--ink)}
+.feature-title em{font-family:Sacramento;color:#d06b91}
+.feature-desc{text-align:center;color:#987080;font-size:13px}
+.letter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:35px}
+.letter-card{background:#fff;border:1px solid #ecd0da;padding:25px;text-align:center;cursor:pointer;min-height:170px;box-shadow:0 10px 25px #8c3c5b0c;transition:.25s}
+.letter-card:hover{transform:translateY(-5px) rotate(-1deg)}
+.letter-card .seal{font-size:35px}.letter-card h3{font:20px "Playfair Display";margin:10px 0}.letter-card p{font-size:11px;line-height:1.7;color:#987080}
+.little-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:30px}
+.little{background:#fff;border:1px solid #ecd0da;padding:18px;text-align:center;min-height:110px}.little b{display:block;font:30px Sacramento;color:#ca6b8e}.little span{font-size:11px;color:#8e6977}
+.garden{background:#fff0f5;width:100%;padding:75px 5%;text-align:center}.garden-box{width:min(850px,100%);margin:auto;background:#fff;border:1px solid #efd2dd;padding:45px}.flowers{font-size:55px;letter-spacing:12px;animation:bloom 2s ease-in-out infinite alternate}@keyframes bloom{to{transform:scale(1.05)}}
+.final-screen{text-align:center;padding:100px 20px;display:none;min-height:100vh;place-items:center;background:linear-gradient(#fff8fa,#f7d6e2)}
+.final-screen.active{display:grid}.final-inner{max-width:650px}.final-inner h2{font:400 65px/.95 "DM Serif Display";color:var(--ink)}.final-inner h2 em{font-family:Sacramento;color:#d06b91}.final-inner p{line-height:1.9;color:#906b79;font-size:13px}
+.wish-modal{position:fixed;inset:0;background:#5a203c66;backdrop-filter:blur(6px);display:none;place-items:center;z-index:200;padding:20px}.wish-modal.show{display:grid}.modal-box{background:#fff7fa;max-width:460px;padding:42px 35px;text-align:center;border:1px solid #e8bacb;box-shadow:0 30px 80px #44112655;position:relative}.close{position:absolute;right:14px;top:10px;border:0;background:none;font-size:26px;color:#a85b78;cursor:pointer}
+@media(max-width:760px){
+ .candles{grid-template-columns:repeat(6,1fr);gap:9px}.candle{height:90px}.candle .stick{height:60px;width:18px}.candle .flame{font-size:22px}
+ .scrap-grid{grid-template-columns:1fr}.scrap-photo{min-height:300px}.scrap-title,.feature-title{font-size:42px}.letter-grid{grid-template-columns:1fr 1fr}.little-grid{grid-template-columns:1fr 1fr}
+ .intro-card{padding:42px 20px}.intro-card h1{font-size:54px}
+}
+@media(max-width:430px){.candles{grid-template-columns:repeat(4,1fr)}.letter-grid{grid-template-columns:1fr}.little-grid{grid-template-columns:1fr}.final-inner h2{font-size:50px}}
+
+/* ===== PHOTObooth redesign: Caramel Click / Cinema Ticket / Pixelbooth ===== */
+.camera-box{width:min(1080px,96vw);max-height:95vh;padding:30px;background:rgba(255,247,249,.93);border:1px solid rgba(255,255,255,.85);box-shadow:0 35px 100px rgba(63,20,38,.32)}
+.photobooth-heading h2{font-size:42px;margin:2px 0 8px}.photobooth-heading h2 em{font-size:52px}.photobooth-heading .camera-subtitle{max-width:620px;margin:0 auto 18px;font-size:12px}
+.template-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:850px;margin:0 auto 18px}.template-choice{min-height:48px;border-radius:14px;background:rgba(255,255,255,.72);border:1px solid #e4b5c5;box-shadow:0 7px 18px rgba(150,75,100,.08);font-size:12px;font-weight:500;transition:.22s}.template-choice:hover{transform:translateY(-2px)}.template-choice.active{background:linear-gradient(135deg,#e9a8bd,#cc6b8e);color:white;border-color:#cc6b8e;box-shadow:0 10px 24px rgba(195,91,128,.22)}.template-number{font:12px 'Playfair Display';opacity:.7;margin-right:5px}
+.booth-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:18px;align-items:center}.booth-info{padding:24px 18px;border-radius:24px;background:rgba(255,255,255,.42);border:1px solid rgba(255,255,255,.7);text-align:left}.booth-bow{font-size:38px}.booth-info h3{font:400 27px 'DM Serif Display';color:#71304c;margin:7px 0}.booth-info p{font-size:11px;line-height:1.8;color:#966f7d}.mini-note{margin-top:18px;padding:14px;border:1px dashed #d69bae;background:rgba(255,245,249,.65);font:11px/1.6 Poppins;color:#9a6278;text-align:center}.mini-note b{font:28px Sacramento;color:#c65f87}
+.booth-stage{min-width:0}.camera-preview-wrap{width:min(620px,100%);max-height:66vh;margin:auto;border-radius:24px;background:#f2d6e0;box-shadow:0 18px 38px rgba(110,45,67,.16)}#cameraVideo{aspect-ratio:4/3}.shot-progress{display:flex;justify-content:center;align-items:center;gap:12px;margin:12px 0 0;font-size:9px;letter-spacing:1.4px;color:#a15c76}.shot-dots{margin:0}.shot-dot{width:8px;height:8px;border-radius:50%;background:#ead2db}.shot-dot.filled{background:#c96588;box-shadow:0 0 0 3px #f7dce6}
+.camera-actions{margin-top:14px}.template-tip{margin:18px auto 0;padding:11px 16px;width:fit-content;max-width:90%;border-radius:999px;background:rgba(255,235,242,.72);color:#92556d;font:11px 'Playfair Display';border:1px solid #efd0db}.camera-note{margin-top:10px}
+@media(max-width:780px){.camera-box{padding:23px 15px}.photobooth-heading h2{font-size:32px}.photobooth-heading h2 em{font-size:43px}.template-picker{grid-template-columns:1fr}.template-choice{min-height:42px}.booth-layout{grid-template-columns:1fr}.booth-info{display:none}.camera-preview-wrap{width:min(390px,100%);max-height:52vh}.template-tip{font-size:10px}}
+
+</style>
+</head>
+<body>
+<div class="ambient-sparkle" aria-hidden="true">
+  <span style="left:6%;top:80%;animation-delay:0s">✦</span>
+  <span style="left:18%;top:95%;animation-delay:2s">♡</span>
+  <span style="left:32%;top:85%;animation-delay:5s">✿</span>
+  <span style="left:48%;top:100%;animation-delay:1s">✦</span>
+  <span style="left:63%;top:90%;animation-delay:7s">♡</span>
+  <span style="left:78%;top:98%;animation-delay:3.5s">✿</span>
+  <span style="left:90%;top:88%;animation-delay:6s">✦</span>
+</div>
+<header class="topbar">
+  <div class="brand">My Bini Guwe Eci <span>♡</span></div>
+  <div class="music-control" id="musicControl">
+    <button class="music-btn" id="musicBtn" type="button" aria-label="Play music">▶ <span id="musicLabel">play music</span></button>
+    <div class="music-progress-panel" aria-label="Music progress">
+      <span id="musicTimeCurrent">0:00</span>
+      <input id="musicProgress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek music">
+      <span id="musicTimeTotal">0:00</span>
+    </div>
+    <div class="volume-panel"><span id="volumeIcon">🔊</span><input id="volumeSlider" type="range" min="0" max="100" value="65" aria-label="Volume"><span id="volumeValue">65%</span></div>
+  </div>
+</header>
+
+<section class="screen intro-screen active" id="intro">
+  <div class="intro-card">
+    <div class="gift">🎁</div>
+    <p class="eyebrow">a tiny birthday surprise</p>
+    <h1>Happy Birthday<br><em>Desi Ayulia</em></h1>
+    <p>Untuk seseorang yang sedang membuka chapter ke-24. Ada sedikit scrapbook, surat, kenangan, dan kejutan yang menunggumu. ♡</p>
+    <button class="primary-btn next-btn" id="openGift">Open your little surprise ♡</button>
+  </div>
+</section>
+
+<section class="screen" id="candles">
+  <div class="candles-wrap section">
+    <p class="eyebrow">chapter 24 begins here</p>
+    <h2 class="candle-title">Make a wish, <em>Desi</em></h2>
+    <p class="candle-sub">Klik lilinnya satu per satu, atau gunakan tombol ajaib untuk meniup semuanya. 🎂</p>
+    <div class="progress-text" id="candleProgress">24 candles glowing ♡</div>
+    <div class="candles" id="candlesGrid"></div>
+    <button class="primary-btn blow-all" id="blowAll">🌬️ BLOW ALL THE CANDLES</button>
+    <br>
+    <button class="next-btn primary-btn" id="afterCandles">Continue to the scrapbook →</button>
+  </div>
+</section>
+
+<section class="screen scrapbook-screen" id="scrapbook">
+  <div class="scrap-cover">
+    <p class="eyebrow" style="text-align:center">01 · little scrapbook</p>
+    <h2 class="scrap-title">A page made for <em>you</em></h2>
+    <div class="scrap-grid">
+      <div class="scrap-photo">DESI<br>♡<br><small>photo 01</small></div>
+      <div class="scrap-copy">
+        <h3>Dear Desi,</h3>
+        <p>Hari ini bukan hanya tentang bertambahnya angka. Ini tentang semua tawa, cerita, langkah kecil, dan versi dirimu yang terus tumbuh.</p>
+        <p>Semoga chapter 24 terasa lembut, hangat, dan penuh kejutan manis. Semoga kamu selalu punya alasan untuk bangga pada perjalananmu sendiri.</p>
+        <span class="signature">with lots of love ♡</span>
+      </div>
+    </div>
+    <div style="text-align:center"><button class="primary-btn next-btn" id="scrapNext">Next → Our Moments</button></div>
+  </div>
+</section>
+
+<section class="screen" id="moments">
+  <div class="feature-section">
+    <p class="eyebrow" style="text-align:center">02 · our moments</p>
+    <h2 class="feature-title">A little <em>memory</em> of you</h2>
+    <p class="feature-desc">Swipe foto di HP atau gunakan tombol. Vinyl ikut berputar setiap kali kenangan berganti. ♡</p>
+    <div class="record-stage reveal visible" style="margin-top:35px">
+      <div class="record-corner">
+        <div class="vinyl spinning-idle" id="vinyl"><div class="vinyl-grooves"></div><div class="vinyl-label">DESI<br><small>24</small></div></div>
+        <span class="record-caption">your little record ♡</span>
+      </div>
+      <div class="record-photos">
+        <button class="photo-arrow prev" id="prevPhoto">‹</button>
+        <div class="photo-frame"><div class="photo-stack" id="photoStack">
+          <div class="record-photo active"><img src="assets/photos/memory-01.jpeg" alt="Desi memory 1"></div>
+          <div class="record-photo"><img src="assets/photos/memory-02.jpeg" alt="Desi memory 2"></div>
+          <div class="record-photo"><img src="assets/photos/memory-03.jpeg" alt="Desi memory 3"></div>
+          <div class="record-photo"><img src="assets/photos/memory-04.jpeg" alt="Desi memory 4"></div>
+          <div class="record-photo"><img src="assets/photos/memory-05.jpeg" alt="Desi memory 5"></div>
+          <div class="record-photo"><img src="assets/photos/memory-06.jpeg" alt="Desi memory 6"></div>
+        </div><p class="record-photo-caption" id="photoCaption">a sweet little memory · 01 / 06</p></div>
+        <button class="photo-arrow next" id="nextPhoto">›</button>
+        <div class="photo-dots" id="photoDots"></div>
+      </div>
+    </div>
+    <div style="text-align:center"><button class="primary-btn next-btn" id="momentsNext">Next → Little Things</button></div>
+  </div>
+</section>
+
+<section class="screen" id="letters">
+  <div class="feature-section">
+    <p class="eyebrow" style="text-align:center">03 · letters</p>
+    <h2 class="feature-title">Four little <em>letters</em></h2>
+    <p class="feature-desc">Klik satu per satu untuk membuka pesan rahasia. 💌</p>
+    <div class="letter-grid">
+      <div class="letter-card glass-panel" data-letter="1"><div class="seal">💌</div><h3>For your heart</h3><p>Open me ♡</p></div>
+      <div class="letter-card glass-panel" data-letter="2"><div class="seal">🎀</div><h3>For your dreams</h3><p>Open me ♡</p></div>
+      <div class="letter-card glass-panel" data-letter="3"><div class="seal">🌷</div><h3>For your days</h3><p>Open me ♡</p></div>
+      <div class="letter-card glass-panel" data-letter="4"><div class="seal">✨</div><h3>For chapter 24</h3><p>Open me ♡</p></div>
+    </div>
+    <div style="text-align:center"><button class="primary-btn next-btn" id="lettersNext">Next → 24 Little Things</button></div>
+  </div>
+</section>
+
+<section class="screen" id="little">
+  <div class="feature-section">
+    <p class="eyebrow" style="text-align:center">04 · 24 little things</p>
+    <h2 class="feature-title">24 reasons to say <em>♡</em></h2>
+    <p class="feature-desc">Kartu-kartu kecil yang bisa kamu buka satu per satu.</p>
+    <div class="little-grid" id="littleGrid"></div>
+    <div style="text-align:center"><button class="primary-btn next-btn" id="littleNext">Next → Scrapbook Wall</button></div>
+  </div>
+</section>
+
+<section class="screen garden" id="garden">
+  <div class="feature-section">
+    <p class="eyebrow" style="text-align:center">05 · scrapbook wall</p>
+    <h2 class="feature-title">A little wall of <em>memories</em></h2>
+    <p class="feature-desc">Delapan potongan kecil, disusun seperti scrapbook yang sengaja dibuat berantakan manis. ♡</p>
+    <div class="scrapbook-wall">
+      <figure class="wall-frame frame-1"><img src="assets/photos/photo-01.jpeg" alt="Memory 01"><figcaption>little moments ♡</figcaption></figure>
+      <figure class="wall-frame frame-2"><img src="assets/photos/photo-02.jpeg" alt="Memory 02"><figcaption>you, being you</figcaption></figure>
+      <figure class="wall-frame frame-3"><img src="assets/photos/photo-03.jpeg" alt="Memory 03"><figcaption>sweet chapter</figcaption></figure>
+      <figure class="wall-frame frame-4"><img src="assets/photos/photo-04.jpeg" alt="Memory 04"><figcaption>keep this one</figcaption></figure>
+      <figure class="wall-frame frame-5"><img src="assets/photos/photo-05.jpeg" alt="Memory 05"><figcaption>forever-ish ♡</figcaption></figure>
+      <figure class="wall-frame frame-6"><img src="assets/photos/photo-06.jpeg" alt="Memory 06"><figcaption>another happy page</figcaption></figure>
+      <figure class="wall-frame frame-7"><img src="assets/photos/photo-07.jpeg" alt="Memory 07"><figcaption>my favorite view</figcaption></figure>
+      <figure class="wall-frame frame-8"><img src="assets/photos/photo-08.jpeg" alt="Memory 08"><figcaption>one more sweet page ♡</figcaption></figure>
+    </div>
+    <div style="text-align:center"><button class="primary-btn next-btn" id="gardenNext">One last surprise →</button></div>
+  </div>
+</section>
+
+<section class="screen" id="videoPage">
+  <div class="feature-section" style="text-align:center">
+    <p class="eyebrow">06 · one last surprise</p>
+    <h2 class="feature-title">For the birthday <em>girl</em></h2>
+    <div style="max-width:800px;margin:30px auto;background:#fff;padding:12px;border:1px solid #eccbd7">
+      <video id="surpriseVideo" controls playsinline style="width:100%;display:block;background:#f5d4df" src="assets/video/surprise.mp4"></video>
+    </div>
+    <button class="primary-btn next-btn" id="finalNext">Finish → ♡</button>
+  </div>
+</section>
+
+<section class="final-screen" id="final">
+  <div class="final-inner">
+    <div class="final-flower">୨୧ ✦ ୨୧</div>
+    <h2>Seelaamatt<br><em>ulanggg tahunnn</em></h2>
+    <h3 class="final-love">saayanggg kuuu cintaa kuuhh ♡</h3>
+    <div class="final-letter glass-panel">
+      <div class="final-letter-icons" aria-hidden="true">🥄 🍴</div>
+      <p><em>Sendok dan garpu mengajarkan kita bahwa untuk menjadi pasangan, kita tak harus memiliki fungsi yang sama.</em></p>
+      <p>Sendok tak pernah ingin menjadi garpu hanya karena garpu lebih kuat menggenggam. Garpu pun tak pernah minder hanya karena tak bisa mengambil kuah seperti sendok.</p>
+      <p>Mereka berbeda, tetapi justru perbedaan itulah yang membuat satu meja menjadi lengkap.</p>
+      <p>Begitu pula dalam hubungan. Kita tak harus sama hebatnya dalam segala hal. Mungkin dia lebih pandai mengambil keputusan, sementara kita lebih pandai menenangkan keadaan. Dia mungkin berani mengambil risiko, sementara kita lebih peka melihat hal-hal yang belum ia pertimbangkan.</p>
+      <p>Sebab hubungan bukan tentang siapa yang lebih hebat atau siapa yang paling sempurna.</p>
+      <p>Hubungan adalah tentang dua orang yang berbeda, yang memilih untuk saling melengkapi dan membangun sesuatu bersama.</p>
+      <p class="final-letter-close">Karena terkadang, yang kita butuhkan bukan seseorang yang sama seperti kita, melainkan seseorang yang berbeda — namun tetap memilih berjalan bersama. <span>♡</span></p>
+    </div>
+    <div class="camera-cta">
+      <button class="primary-btn" id="openCamera">📸 Open Cam & Take a Selfie</button>
+      <p class="camera-hint">Ambil 6 foto berturut-turut untuk jadi photobooth strip <strong>Happy Birthday Eciii</strong> ♡</p>
+    </div>
+    <p class="tiny">made with ♡ for My Bini Guwe Eci · 24</p>
+  </div>
+</section>
+
+<div class="camera-modal" id="cameraModal" aria-hidden="true">
+  <div class="camera-box">
+    <button class="camera-close" id="closeCamera" aria-label="Close camera">×</button>
+    <div class="photobooth-heading">
+      <p class="eyebrow">photobooth corner · chapter 24</p>
+      <h2>Happy Birthday <em>Eciii</em> ♡</h2>
+      <p class="camera-subtitle">Capture six little moments and turn them into your own cute photobooth strip.</p>
+    </div>
+    <div class="template-picker" id="templatePicker" aria-label="Choose photobooth template">
+      <button class="template-choice active" data-template="classic"><span class="template-number">01</span> Caramel Click 🍿</button>
+      <button class="template-choice" data-template="ticket"><span class="template-number">02</span> Cinema Ticket 🎟️</button>
+      <button class="template-choice" data-template="pixel"><span class="template-number">03</span> Pixelbooth 📸</button>
+    </div>
+    <div class="booth-layout">
+      <aside class="booth-info glass-panel">
+        <div class="booth-bow">🎀</div>
+        <h3>Take a Selfie ♡</h3>
+        <p>Choose a frame, smile, and make six tiny memories.</p>
+        <div class="mini-note">HAPPY BIRTHDAY<br><b>ECIII</b> · 24</div>
+      </aside>
+      <div class="booth-stage">
+        <div class="camera-preview-wrap">
+          <span class="deco-icon deco-1" aria-hidden="true">🎀</span>
+          <span class="deco-icon deco-2" aria-hidden="true">✦</span>
+          <span class="deco-icon deco-3" aria-hidden="true">🌸</span>
+          <span class="deco-icon deco-4" aria-hidden="true">♡</span>
+          <video id="cameraVideo" autoplay playsinline muted></video>
+          <canvas id="cameraCanvas"></canvas>
+          <div class="camera-placeholder" id="cameraPlaceholder">Tekan “Start Camera” untuk membuka kamera.</div>
+          <div class="capture-countdown" id="captureCountdown"></div>
+          <div class="camera-flash" id="cameraFlash"></div>
+        </div>
+        <div class="shot-progress"><span>6 SHOTS</span><div class="shot-dots" id="shotDots"><span class="shot-dot"></span><span class="shot-dot"></span><span class="shot-dot"></span><span class="shot-dot"></span><span class="shot-dot"></span><span class="shot-dot"></span></div></div>
+        <div class="camera-actions">
+          <button class="primary-btn" id="startCamera">Start Camera</button>
+          <button class="primary-btn" id="takeSelfie" disabled>Start Photobooth (6x) ✦</button>
+          <button class="secondary-btn" id="retakeSelfie" style="display:none">Retake</button>
+          <a class="primary-btn download-selfie" id="downloadSelfie" download="happy-birthday-eciii-photobooth.png" style="display:none">Download Photobooth ↓</a>
+        </div>
+      </div>
+    </div>
+    <div class="template-tip">♡ More selfies, more memories, <b>Happy Birthday Eciii!</b> ♡</div>
+    <p class="camera-note">🔒 Foto diproses langsung di browser dan tidak diunggah ke mana pun.</p>
+  </div>
+</div>
+
+<div class="wish-modal" id="wishModal" aria-hidden="true">
+  <div class="modal-box"><button class="close" id="closeModal">×</button><div style="font-size:55px">🎀</div>
+    <h2 style="font:400 38px 'DM Serif Display';color:#77324f">Make a wish, Desi ♡</h2>
+    <p style="font-size:13px;line-height:1.8;color:#906b79">Tutup mata sebentar, pikirkan satu hal yang paling kamu inginkan untuk chapter 24, lalu tekan tombolnya.</p>
+    <button class="primary-btn" id="wishDone">I made my wish ♡</button>
+    <div id="wishResult" style="display:none;margin-top:18px;font:29px Sacramento;color:#c65f87">Your wish is safe with the stars ✨</div>
+  </div>
+</div>
+
+<audio id="bgMusic" loop preload="auto" src="assets/music/confident.mp3"></audio>
+<script src="script.js"></script>
+<script id="fallback-inline">
+/* Safety fallback: critical navigation remains available even if a secondary interaction fails. */
+(function(){
+  function go(id){
+    var screens=document.querySelectorAll(".screen");
+    screens.forEach(function(s){s.classList.remove("active");});
+    var target=document.getElementById(id);
+    if(target){target.classList.add("active");window.scrollTo(0,0);}
+  }
+  var routes={
+    openGift:"candles",afterCandles:"scrapbook",scrapNext:"moments",
+    momentsNext:"letters",lettersNext:"little",littleNext:"garden",
+    gardenNext:"videoPage",finalNext:"final"
+  };
+  Object.keys(routes).forEach(function(id){
+    var b=document.getElementById(id);
+    if(b) b.addEventListener("click",function(e){e.preventDefault();go(routes[id]);});
+  });
+})();
+</script>
+</body></html>

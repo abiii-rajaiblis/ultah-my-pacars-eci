@@ -1,0 +1,10 @@
+PHOTO NAMING
+
+Scrapbook Wall (8 frames):
+photo-01.jpeg ... photo-08.jpeg
+
+Memory slider (6 frames):
+memory-01.jpeg ... memory-06.jpeg
+
+Replace each file with your own JPEG/PNG photo while keeping the filename and extension.
+For the music player, replace assets/music/confident.mp3 with your actual MP3 file using exactly that filename.
