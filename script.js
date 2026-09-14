@@ -308,9 +308,49 @@
   const cameraCanvas = $("cameraCanvas");
   const cameraPlaceholder = $("cameraPlaceholder");
   const templatePicker = $("templatePicker");
+  const captureCountdown = $("captureCountdown");
+  const cameraFlash = $("cameraFlash");
+  const shotDots = $("shotDots") ? all("#shotDots .shot-dot") : [];
   let cameraStream = null;
   let selectedTemplate = "classic";
   let capturedImage = false;
+  let capturedFrames = []; // holds 4 real captured <canvas> snapshots
+  let isCapturing = false;
+
+  const wait = (ms) => new Promise(res => setTimeout(res, ms));
+
+  function updateShotDots(){
+    shotDots.forEach((dot, i) => dot.classList.toggle("filled", i < capturedFrames.length));
+  }
+
+  async function runCountdown(seconds){
+    if(!captureCountdown) return;
+    captureCountdown.classList.add("show");
+    for(let n = seconds; n >= 1; n--){
+      captureCountdown.innerHTML = `<span>${n}</span>`;
+      await wait(700);
+    }
+    captureCountdown.classList.remove("show");
+    captureCountdown.innerHTML = "";
+  }
+
+  function flashOnce(){
+    if(!cameraFlash) return;
+    cameraFlash.classList.remove("flash");
+    void cameraFlash.offsetWidth;
+    cameraFlash.classList.add("flash");
+  }
+
+  function snapshotFrame(){
+    const vw = cameraVideo.videoWidth || 640, vh = cameraVideo.videoHeight || 480;
+    const c = document.createElement("canvas");
+    c.width = vw; c.height = vh;
+    const cx = c.getContext("2d");
+    // mirror so it matches the live preview (selfie-style)
+    cx.translate(vw, 0); cx.scale(-1, 1);
+    cx.drawImage(cameraVideo, 0, 0, vw, vh);
+    return c;
+  }
 
   function stopCamera(){
     if(cameraStream){ cameraStream.getTracks().forEach(track => track.stop()); cameraStream=null; }
@@ -350,7 +390,11 @@
       cameraVideo.style.display="block";
       cameraCanvas.style.display="none";
       takeSelfie.disabled=false;
+      takeSelfie.textContent="Start Photobooth (4x) ✦";
       capturedImage=false;
+      capturedFrames=[];
+      isCapturing=false;
+      updateShotDots();
       retakeSelfie.style.display="none";
       if(downloadSelfie) downloadSelfie.style.display="none";
     }catch(err){
@@ -403,70 +447,153 @@
     ctx.restore();
   }
 
+  // wrap text across multiple centered lines inside a max width, for the glass bubble
+  function wrapCenteredText(ctx, text, cx, startY, maxWidth, lineHeight){
+    const words = text.split(" ");
+    let line = "", lines = [];
+    words.forEach(word => {
+      const test = line ? line + " " + word : word;
+      if(ctx.measureText(test).width > maxWidth && line){
+        lines.push(line); line = word;
+      } else line = test;
+    });
+    if(line) lines.push(line);
+    lines.forEach((l, i) => ctx.fillText(l, cx, startY + i*lineHeight));
+    return lines.length * lineHeight;
+  }
+
+  // a soft "glass pane" speech-bubble (used for captions/quotes on the strip)
+  function drawGlassBubble(ctx, x, y, w, h, tailX){
+    ctx.save();
+    roundedRect(ctx, x, y, w, h, 18);
+    const grad = ctx.createLinearGradient(x, y, x, y+h);
+    grad.addColorStop(0, "rgba(255,255,255,.62)");
+    grad.addColorStop(1, "rgba(255,255,255,.34)");
+    ctx.fillStyle = grad; ctx.fill();
+    ctx.lineWidth = 1.5; ctx.strokeStyle = "rgba(255,255,255,.85)"; ctx.stroke();
+    if(tailX !== undefined){
+      ctx.beginPath();
+      ctx.moveTo(tailX-14, y+h-1);
+      ctx.lineTo(tailX, y+h+16);
+      ctx.lineTo(tailX+14, y+h-1);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(255,255,255,.4)"; ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,.85)"; ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  const deco = ["♡","✦","✿","🎀","🌸","✨"];
+  function scatterIcons(ctx, y, W, count){
+    ctx.save(); ctx.textAlign="center"; ctx.font="22px Georgia";
+    for(let i=0;i<count;i++){
+      const x = (W/(count+1))*(i+1) + (i%2===0? -6:6);
+      ctx.fillStyle = "rgba(214,110,145,.55)";
+      ctx.fillText(deco[i % deco.length], x, y);
+    }
+    ctx.restore();
+  }
+
+  const bubbleMessages = {
+    classic: "Beda tapi saling melengkapi, seperti sendok & garpu ♡",
+    bow: "୨୧ dua hal berbeda, satu cerita hangat ୨୧",
+    film: "roll no.24 · saling melengkapi, bukan menyamai ♡"
+  };
+
   function drawTemplate(){
     if(!cameraCanvas || !cameraVideo) return;
-    const vw=cameraVideo.videoWidth || 640, vh=cameraVideo.videoHeight || 480;
-    const W=900, frameH=390, gap=24, top=110, bottom=170;
-    const H=top + frameH*6 + gap*5 + bottom;
+    const frames = capturedFrames.length ? capturedFrames : [null,null,null,null];
+    const W=760, frameH=420, gap=26, top=130, bottom=190;
+    const H=top + frameH*4 + gap*3 + bottom;
     cameraCanvas.width=W; cameraCanvas.height=H;
     const ctx=cameraCanvas.getContext("2d");
     ctx.clearRect(0,0,W,H);
 
     if(selectedTemplate==="classic"){
       ctx.fillStyle="#fff8fa"; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle="#71304c"; ctx.textAlign="center"; ctx.font="52px Georgia"; ctx.fillText("DESI'S BIRTHDAY",W/2,65);
-      ctx.font="26px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("chapter 24 · six little moments · ♡",W/2,95);
+      ctx.fillStyle="#71304c"; ctx.textAlign="center"; ctx.font="46px Georgia"; ctx.fillText("DESI'S BIRTHDAY",W/2,64);
+      ctx.font="22px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("chapter 24 · four little moments · ♡",W/2,92);
     } else if(selectedTemplate==="bow"){
       ctx.fillStyle="#fff1f6"; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle="#71304c"; ctx.textAlign="center"; ctx.font="50px Georgia"; ctx.fillText("୨୧ BIRTHDAY GIRL ୨୧",W/2,65);
-      ctx.font="24px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("sweet memories, sweeter days ♡",W/2,95);
+      ctx.fillStyle="#71304c"; ctx.textAlign="center"; ctx.font="44px Georgia"; ctx.fillText("୨୧ BIRTHDAY GIRL ୨୧",W/2,64);
+      ctx.font="21px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("sweet memories, sweeter days ♡",W/2,92);
     } else {
       ctx.fillStyle="#f9f1e9"; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle="#4d3d3f"; ctx.textAlign="center"; ctx.font="48px Georgia"; ctx.fillText("♡ PHOTOBOOTH ♡",W/2,65);
-      ctx.font="23px Georgia"; ctx.fillStyle="#9d7b78"; ctx.fillText("ROLL NO. 24 · KEEP THIS FRAME",W/2,95);
+      ctx.fillStyle="#4d3d3f"; ctx.textAlign="center"; ctx.font="42px Georgia"; ctx.fillText("♡ PHOTOBOOTH ♡",W/2,64);
+      ctx.font="20px Georgia"; ctx.fillStyle="#9d7b78"; ctx.fillText("ROLL NO. 24 · KEEP THIS FRAME",W/2,92);
     }
+    scatterIcons(ctx, top-16, W, 5);
 
-    const labels=["01 · little smile","02 · birthday mood","03 · pretty moment","04 · sweet chapter","05 · keep this one","06 · forever-ish ♡"];
-    for(let i=0;i<6;i++){
+    const labels=["01 · little smile","02 · birthday mood","03 · pretty moment","04 · forever-ish ♡"];
+    const cornerIcons=["♡","✦","🎀","✿"];
+    for(let i=0;i<4;i++){
       const y=top+i*(frameH+gap);
       ctx.save();
       if(selectedTemplate==="classic") ctx.fillStyle="#ffffff";
       else if(selectedTemplate==="bow") ctx.fillStyle="#fff9fb";
       else ctx.fillStyle="#fffdf9";
-      roundedRect(ctx,55,y,W-110,frameH,8); ctx.fill();
+      roundedRect(ctx,45,y,W-90,frameH,10); ctx.fill();
       ctx.strokeStyle=selectedTemplate==="film"?"#c7aaa5":"#e5b4c7"; ctx.lineWidth=4; ctx.stroke();
-      ctx.save(); roundedRect(ctx,68,y+13,W-136,frameH-26,5); ctx.clip(); fitImage(ctx,cameraVideo,68,y+13,W-136,frameH-26,true,1.03); ctx.restore();
-      if(selectedTemplate==="bow"){
-        ctx.fillStyle="#d36f92"; ctx.font="34px Georgia"; ctx.textAlign="left"; ctx.fillText("♡",80,y+55);
-        ctx.textAlign="right"; ctx.fillText("♡",W-80,y+55);
-      }
-      if(selectedTemplate==="film"){
-        ctx.fillStyle="#5e4a4a"; ctx.font="20px Georgia"; ctx.textAlign="left"; ctx.fillText(labels[i],75,y+frameH-22);
-        ctx.textAlign="right"; ctx.fillText("24",W-75,y+frameH-22);
-      }
+      const photoH = frameH-64;
+      ctx.save(); roundedRect(ctx,58,y+14,W-116,photoH,6); ctx.clip();
+      if(frames[i]) fitImage(ctx,frames[i],58,y+14,W-116,photoH,false,1.02);
+      else { ctx.fillStyle="#f6d5df"; ctx.fillRect(58,y+14,W-116,photoH); }
+      ctx.restore();
+
+      // corner sticker icon
+      ctx.font="26px Georgia"; ctx.fillStyle="#d36f92"; ctx.textAlign="right";
+      ctx.fillText(cornerIcons[i], W-62, y+42);
+
+      // per-frame glass caption chip
+      const chipW = 200, chipH = 34;
+      drawGlassBubble(ctx, 58, y+photoH+20, chipW, chipH);
+      ctx.font="14px Georgia"; ctx.fillStyle="#7a4258"; ctx.textAlign="left";
+      ctx.fillText(labels[i], 58+14, y+photoH+42);
       ctx.restore();
     }
-    ctx.textAlign="center";
-    if(selectedTemplate==="classic"){
-      ctx.fillStyle="#c66a8d"; ctx.font="30px Georgia"; ctx.fillText("made with love for your chapter 24 ♡",W/2,H-65);
-    } else if(selectedTemplate==="bow"){
-      ctx.fillStyle="#c66a8d"; ctx.font="32px Georgia"; ctx.fillText("୨୧ six frames, one lovely memory ୨୧",W/2,H-65);
-    } else {
-      ctx.fillStyle="#7b6363"; ctx.font="28px Georgia"; ctx.fillText("DATE: 24 · STATUS: CUTE ♡",W/2,H-65);
-    }
+
+    // big glass-pane bubble with the sweet message
+    const bubW = W-140, bubH = 96, bubX = 70, bubY = H-bottom+18;
+    drawGlassBubble(ctx, bubX, bubY, bubW, bubH, W/2);
+    ctx.font="italic 22px 'Playfair Display', Georgia"; ctx.fillStyle="#7d3455"; ctx.textAlign="center";
+    wrapCenteredText(ctx, bubbleMessages[selectedTemplate] || bubbleMessages.classic, W/2, bubY+38, bubW-50, 28);
+    scatterIcons(ctx, H-30, W, 5);
+
     cameraCanvas.style.display="block"; cameraVideo.style.display="none";
     if(downloadSelfie) downloadSelfie.style.display="inline-flex";
     if(downloadSelfie) downloadSelfie.href=cameraCanvas.toDataURL("image/png");
   }
 
-  if(takeSelfie) takeSelfie.addEventListener("click", () => {
-    capturedImage=true; drawTemplate(); stopCamera();
-    takeSelfie.disabled=true; retakeSelfie.style.display="inline-block";
-    if(cameraPlaceholder) cameraPlaceholder.style.display="none";
-  });
+  async function startPhotoboothSequence(){
+    if(isCapturing || !cameraStream) return;
+    isCapturing = true;
+    capturedFrames = [];
+    updateShotDots();
+    takeSelfie.disabled = true;
+    takeSelfie.textContent = "Capturing…";
+    for(let shot=1; shot<=4; shot++){
+      await runCountdown(3);
+      flashOnce();
+      capturedFrames.push(snapshotFrame());
+      updateShotDots();
+      takeSelfie.textContent = `Ambil foto ${shot}/4 ✦`;
+      await wait(500);
+    }
+    capturedImage = true;
+    drawTemplate();
+    stopCamera();
+    isCapturing = false;
+    takeSelfie.disabled = true;
+    takeSelfie.textContent = "Start Photobooth (4x) ✦";
+    retakeSelfie.style.display = "inline-block";
+    if(cameraPlaceholder) cameraPlaceholder.style.display = "none";
+  }
+
+  if(takeSelfie) takeSelfie.addEventListener("click", () => { startPhotoboothSequence(); });
   if(retakeSelfie) retakeSelfie.addEventListener("click", () => {
     cameraCanvas.style.display="none"; cameraVideo.style.display="block";
-    capturedImage=false; takeSelfie.disabled=false; retakeSelfie.style.display="none";
+    capturedImage=false; capturedFrames=[]; updateShotDots();
+    takeSelfie.disabled=false; takeSelfie.textContent="Start Photobooth (4x) ✦"; retakeSelfie.style.display="none";
     if(downloadSelfie) downloadSelfie.style.display="none";
     if(startCamera) startCamera.click();
   });
