@@ -206,15 +206,31 @@
 
   // ---------- 24 Little Things ----------
   const things = [
-    "senyummu","caramu bercerita","ketulusanmu","semangatmu","tawamu",
-    "kebaikan kecilmu","caramu peduli","mimpi-mimpimu","keberanianmu",
-    "kesabaranmu","rasa ingin tahumu","keunikanmu","cara kamu belajar",
-    "cara kamu bertahan","selera lucumu","sisi lembutmu","energi positifmu",
-    "caramu menghargai orang","hal-hal random tentangmu","cerita yang kamu punya",
-    "masa depanmu","versi kecil dirimu","versi sekarang dirimu",
-    "dan karena kamu adalah kamu ♡"
+    "cara senyummu membuat hari terasa lebih hangat",
+    "cara kamu bercerita sampai hal sederhana jadi berarti",
+    "ketulusanmu yang selalu terasa tanpa banyak kata",
+    "caramu tetap menjadi dirimu sendiri",
+    "tawamu yang selalu punya cara mencairkan suasana",
+    "kebaikan kecil yang sering kamu lakukan diam-diam",
+    "caramu peduli bahkan pada hal yang dianggap sepele",
+    "mimpi-mimpi indah yang masih kamu perjuangkan",
+    "keberanianmu untuk terus melangkah",
+    "kesabaranmu menghadapi hari-hari yang tidak mudah",
+    "rasa ingin tahumu yang membuatmu terus tumbuh",
+    "keunikanmu yang tidak perlu dibuat-buat",
+    "cara kamu belajar dari setiap perjalanan",
+    "caramu bangkit dan mencoba lagi",
+    "selera lucumu yang selalu punya kejutan",
+    "sisi lembutmu yang membuatmu begitu berharga",
+    "energi hangat yang kamu bawa ke sekitar",
+    "caramu menghargai orang lain dengan tulus",
+    "cerita-cerita random yang justru paling membekas",
+    "setiap kenangan kecil yang terasa layak disimpan",
+    "masa depanmu yang masih penuh kemungkinan indah",
+    "versi kecil dirimu yang sudah sejauh ini",
+    "versi dirimu hari ini yang terus bertumbuh",
+    "dan alasan paling sederhana: karena kamu adalah kamu ♡"
   ];
-
   const littleGrid = $("littleGrid");
   if (littleGrid) {
     things.forEach((thing, i) => {
@@ -279,6 +295,103 @@
       setTimeout(() => el.remove(), 2200);
     }
   }
+
+  // ---------- Photobooth camera ----------
+  const cameraModal = $("cameraModal");
+  const openCamera = $("openCamera");
+  const closeCamera = $("closeCamera");
+  const startCamera = $("startCamera");
+  const takeSelfie = $("takeSelfie");
+  const retakeSelfie = $("retakeSelfie");
+  const cameraVideo = $("cameraVideo");
+  const cameraCanvas = $("cameraCanvas");
+  const cameraPlaceholder = $("cameraPlaceholder");
+  const templatePicker = $("templatePicker");
+  let cameraStream = null;
+  let selectedTemplate = "classic";
+  let capturedImage = false;
+
+  function stopCamera(){
+    if(cameraStream){ cameraStream.getTracks().forEach(track => track.stop()); cameraStream=null; }
+  }
+  function openCameraModal(){
+    if(!cameraModal) return;
+    cameraModal.classList.add("show"); cameraModal.setAttribute("aria-hidden","false");
+  }
+  function closeCameraModal(){
+    if(!cameraModal) return;
+    cameraModal.classList.remove("show"); cameraModal.setAttribute("aria-hidden","true");
+    stopCamera();
+  }
+  if(openCamera) openCamera.addEventListener("click", openCameraModal);
+  if(closeCamera) closeCamera.addEventListener("click", closeCameraModal);
+  if(cameraModal) cameraModal.addEventListener("click", e => { if(e.target===cameraModal) closeCameraModal(); });
+
+  if(templatePicker){
+    all(".template-choice").forEach(btn => btn.addEventListener("click", () => {
+      all(".template-choice").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active"); selectedTemplate=btn.dataset.template || "classic";
+      if(capturedImage) drawTemplate();
+    }));
+  }
+
+  if(startCamera) startCamera.addEventListener("click", async () => {
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      if(cameraPlaceholder) cameraPlaceholder.textContent="Kamera browser tidak tersedia. Coba buka lewat HTTPS atau localhost.";
+      return;
+    }
+    try{
+      stopCamera();
+      cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"},audio:false});
+      cameraVideo.srcObject=cameraStream;
+      await cameraVideo.play();
+      cameraPlaceholder.style.display="none";
+      takeSelfie.disabled=false;
+      capturedImage=false;
+      retakeSelfie.style.display="none";
+    }catch(err){
+      if(cameraPlaceholder) { cameraPlaceholder.style.display="grid"; cameraPlaceholder.textContent="Izin kamera belum diberikan. Izinkan kamera lalu tekan Start Camera lagi."; }
+    }
+  });
+
+  function drawTemplate(){
+    if(!cameraCanvas || !cameraVideo) return;
+    const vw=cameraVideo.videoWidth || 640, vh=cameraVideo.videoHeight || 480;
+    const w=900, h=selectedTemplate==="film" ? 1100 : 1050;
+    cameraCanvas.width=w; cameraCanvas.height=h;
+    const ctx=cameraCanvas.getContext("2d");
+    ctx.fillStyle="#fff8fa"; ctx.fillRect(0,0,w,h);
+    const pad=55, photoH=760;
+    const scale=Math.max((w-pad*2)/vw, photoH/vh), dw=vw*scale, dh=vh*scale;
+    const dx=(w-dw)/2, dy=55+(photoH-dh)/2;
+    ctx.save(); ctx.translate(w,0); ctx.scale(-1,1); ctx.drawImage(cameraVideo, w-dx-dw, dy, dw, dh); ctx.restore();
+    ctx.strokeStyle="#e5b4c7"; ctx.lineWidth=5; ctx.strokeRect(pad,55,w-pad*2,photoH);
+    ctx.fillStyle="#71304c"; ctx.textAlign="center";
+    if(selectedTemplate==="classic"){
+      ctx.font="44px Georgia"; ctx.fillText("DESI'S BIRTHDAY",w/2,875);
+      ctx.font="28px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("chapter 24 · ♡ · 2026",w/2,930);
+    }else if(selectedTemplate==="bow"){
+      ctx.font="70px Georgia"; ctx.fillText("୨୧",90,110); ctx.fillText("୨୧",810,110);
+      ctx.font="42px Georgia"; ctx.fillText("birthday girl ♡",w/2,875);
+      ctx.font="27px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("sweet memories, sweeter days",w/2,930);
+    }else{
+      ctx.font="38px Georgia"; ctx.fillText("♡ PHOTOBOOTH ♡",w/2,870);
+      ctx.font="25px Georgia"; ctx.fillStyle="#c66a8d"; ctx.fillText("roll no. 24 · keep this frame",w/2,920);
+      for(let i=0;i<5;i++){ctx.beginPath();ctx.arc(100+i*175,1010,7,0,Math.PI*2);ctx.fill();}
+    }
+    cameraCanvas.style.display="block";
+    cameraVideo.style.display="none";
+  }
+  if(takeSelfie) takeSelfie.addEventListener("click", () => {
+    capturedImage=true; drawTemplate(); stopCamera();
+    takeSelfie.disabled=true; retakeSelfie.style.display="inline-block";
+    if(cameraPlaceholder) cameraPlaceholder.style.display="none";
+  });
+  if(retakeSelfie) retakeSelfie.addEventListener("click", () => {
+    cameraCanvas.style.display="none"; cameraVideo.style.display="block";
+    capturedImage=false; takeSelfie.disabled=false; retakeSelfie.style.display="none";
+    if(startCamera) startCamera.click();
+  });
 
   // Expose only navigation for fallback/debugging, without relying on it for UI.
   window.birthdayApp = { go, confetti, renderPhoto };
