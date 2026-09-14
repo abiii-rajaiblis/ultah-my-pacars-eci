@@ -29,6 +29,15 @@ body{background:var(--cream);color:#6d4354}
 @keyframes floatGift{50%{transform:translateY(-10px) rotate(2deg)}}
 .action-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .next-btn{margin-top:24px}
+/* ---- UI refresh: buttons, cards, ambient sparkle ---- */
+.primary-btn{background:linear-gradient(135deg,#e28aac,#c65f87);border-radius:999px;padding:14px 26px;letter-spacing:.4px;font-weight:500;box-shadow:0 12px 28px rgba(198,95,135,.28);border:1px solid rgba(255,255,255,.4)}
+.primary-btn:hover{background:linear-gradient(135deg,#d97b9f,#b8517a);box-shadow:0 16px 34px rgba(198,95,135,.36);transform:translateY(-3px)}
+.secondary-btn{border-radius:999px;transition:.25s}
+.secondary-btn:hover{background:#fce6ee;transform:translateY(-2px)}
+.intro-card,.scrap-cover,.letter-card,.little,.garden-box{border-radius:18px}
+.ambient-sparkle{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.ambient-sparkle span{position:absolute;font-size:16px;opacity:.35;color:#e39cb8;animation:driftSparkle 14s linear infinite}
+@keyframes driftSparkle{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(-120vh) rotate(40deg)}}
 .candles-wrap{padding-top:110px;text-align:center}
 .candle-title{font:400 54px/1 "DM Serif Display";color:var(--ink)}
 .candle-title em{font-family:Sacramento;color:#d06b91}
@@ -73,6 +82,15 @@ body{background:var(--cream);color:#6d4354}
 </style>
 </head>
 <body>
+<div class="ambient-sparkle" aria-hidden="true">
+  <span style="left:6%;top:80%;animation-delay:0s">✦</span>
+  <span style="left:18%;top:95%;animation-delay:2s">♡</span>
+  <span style="left:32%;top:85%;animation-delay:5s">✿</span>
+  <span style="left:48%;top:100%;animation-delay:1s">✦</span>
+  <span style="left:63%;top:90%;animation-delay:7s">♡</span>
+  <span style="left:78%;top:98%;animation-delay:3.5s">✿</span>
+  <span style="left:90%;top:88%;animation-delay:6s">✦</span>
+</div>
 <header class="topbar">
   <div class="brand">My Bini Guwe Eci <span>♡</span></div>
   <div class="music-control">
@@ -211,11 +229,19 @@ to smile</div><figcaption>chapter 24</figcaption></figure>
     <div class="final-flower">୨୧ ✦ ୨୧</div>
     <h2>Seelaamatt<br><em>ulanggg tahunnn</em></h2>
     <h3 class="final-love">saayanggg kuuu cintaa kuuhh ♡</h3>
-    <p>Semoga di usia 24, hari-harimu dipenuhi kabar baik, tawa yang panjang, mimpi yang pelan-pelan menjadi nyata, dan banyak momen yang layak disimpan dalam scrapbook kehidupanmu.</p>
-    <p>Terima kasih sudah menjadi seseorang dengan cerita, tawa, dan warna yang begitu indah untuk dirayakan. Semoga tahun ini menjadi chapter yang paling hangat sejauh ini. ♡</p>
+    <div class="final-letter glass-panel">
+      <div class="final-letter-icons" aria-hidden="true">🥄 🍴</div>
+      <p><em>Sendok dan garpu mengajarkan kita bahwa untuk menjadi pasangan, kita tak harus memiliki fungsi yang sama.</em></p>
+      <p>Sendok tak pernah ingin menjadi garpu hanya karena garpu lebih kuat menggenggam. Garpu pun tak pernah minder hanya karena tak bisa mengambil kuah seperti sendok.</p>
+      <p>Mereka berbeda, tetapi justru perbedaan itulah yang membuat satu meja menjadi lengkap.</p>
+      <p>Begitu pula dalam hubungan. Kita tak harus sama hebatnya dalam segala hal. Mungkin dia lebih pandai mengambil keputusan, sementara kita lebih pandai menenangkan keadaan. Dia mungkin berani mengambil risiko, sementara kita lebih peka melihat hal-hal yang belum ia pertimbangkan.</p>
+      <p>Sebab hubungan bukan tentang siapa yang lebih hebat atau siapa yang paling sempurna.</p>
+      <p>Hubungan adalah tentang dua orang yang berbeda, yang memilih untuk saling melengkapi dan membangun sesuatu bersama.</p>
+      <p class="final-letter-close">Karena terkadang, yang kita butuhkan bukan seseorang yang sama seperti kita, melainkan seseorang yang berbeda — namun tetap memilih berjalan bersama. <span>♡</span></p>
+    </div>
     <div class="camera-cta">
       <button class="primary-btn" id="openCamera">📸 Open Cam & Take a Selfie</button>
-      <p class="camera-hint">Ambil satu foto untuk jadi halaman photobooth-mu sendiri.</p>
+      <p class="camera-hint">Ambil 4 foto berturut-turut untuk jadi photobooth strip-mu sendiri ♡</p>
     </div>
     <p class="tiny">made with ♡ for My Bini Guwe Eci · 24</p>
   </div>
@@ -226,20 +252,29 @@ to smile</div><figcaption>chapter 24</figcaption></figure>
     <button class="camera-close" id="closeCamera" aria-label="Close camera">×</button>
     <p class="eyebrow">photobooth corner</p>
     <h2>Take your little <em>birthday selfie</em> ♡</h2>
-    <p class="camera-subtitle">Pilih frame, buka kamera, lalu buat photobooth 6 frame yang tersusun ke bawah. ♡</p>
+    <p class="camera-subtitle">Pilih frame, buka kamera, lalu ambil 4 jepretan untuk photobooth strip-mu sendiri. 🎀</p>
     <div class="template-picker" id="templatePicker">
       <button class="template-choice active" data-template="classic">Classic ♡</button>
       <button class="template-choice" data-template="bow">Bow & Hearts 🎀</button>
       <button class="template-choice" data-template="film">Cute Film 🎞️</button>
     </div>
     <div class="camera-preview-wrap">
+      <span class="deco-icon deco-1" aria-hidden="true">🎀</span>
+      <span class="deco-icon deco-2" aria-hidden="true">✨</span>
+      <span class="deco-icon deco-3" aria-hidden="true">🌸</span>
+      <span class="deco-icon deco-4" aria-hidden="true">♡</span>
       <video id="cameraVideo" autoplay playsinline muted></video>
       <canvas id="cameraCanvas"></canvas>
       <div class="camera-placeholder" id="cameraPlaceholder">Tekan “Start Camera” untuk membuka kamera.</div>
+      <div class="capture-countdown" id="captureCountdown"></div>
+      <div class="camera-flash" id="cameraFlash"></div>
+    </div>
+    <div class="shot-dots" id="shotDots">
+      <span class="shot-dot"></span><span class="shot-dot"></span><span class="shot-dot"></span><span class="shot-dot"></span>
     </div>
     <div class="camera-actions">
       <button class="primary-btn" id="startCamera">Start Camera</button>
-      <button class="primary-btn" id="takeSelfie" disabled>Take Selfie ✦</button>
+      <button class="primary-btn" id="takeSelfie" disabled>Start Photobooth (4x) ✦</button>
       <button class="secondary-btn" id="retakeSelfie" style="display:none">Retake</button>
       <a class="primary-btn download-selfie" id="downloadSelfie" download="desi-photobooth-24.png" style="display:none">Download Photobooth ↓</a>
     </div>
